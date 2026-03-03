@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cleario POC — Clickable Prototype</title>
+<title>Cleario POC — Clickable Prototype v2</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #F0F2F5; color: #333; }
@@ -28,6 +28,10 @@ input:focus { border-color: var(--primary) !important; }
 .proto-nav-btns button { padding: 6px 14px; border-radius: 4px; font-size: 12px; font-weight: 500; border: none; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); transition: all 0.2s; }
 .proto-nav-btns button.active { background: var(--primary); color: #fff; }
 .proto-nav-btns button:hover:not(.active) { background: rgba(255,255,255,0.2); }
+
+/* Change log banner */
+.changelog { background: #FFF8E1; border-bottom: 1px solid #FFE082; padding: 8px 24px; font-size: 11px; color: #795548; }
+.changelog strong { color: #E65100; }
 
 /* Flow indicator */
 .flow-bar { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 16px; font-size: 12px; }
@@ -68,7 +72,7 @@ input:focus { border-color: var(--primary) !important; }
 .screen-nav button.next:hover { background: var(--primary-hover); }
 .screen-nav button:disabled { opacity: 0.4; cursor: default; }
 
-/* Screen 0: Notification */
+/* Screen 0: Notification — system-alert style */
 .desktop-bg { width: 100%; height: 580px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); position: relative; overflow: hidden; }
 .taskbar { position: absolute; bottom: 0; left: 0; right: 0; height: 40px; background: #1f1f2e; border-top: 1px solid #333; display: flex; align-items: center; padding: 0 12px; justify-content: space-between; }
 .taskbar-left { display: flex; gap: 8px; }
@@ -82,40 +86,48 @@ input:focus { border-color: var(--primary) !important; }
 .desktop-icon-label { font-size: 10px; color: rgba(255,255,255,0.6); }
 .sim-badge { position: absolute; top: 20px; right: 20px; padding: 8px 14px; background: rgba(0,0,0,0.5); border-radius: 20px; font-size: 11px; color: rgba(255,255,255,0.7); }
 
-.notif-popup { position: absolute; bottom: 52px; right: 16px; width: 360px; background: #fff; border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); overflow: hidden; animation: slideUp 0.4s cubic-bezier(0.16,1,0.3,1); }
+/* System-alert style notification */
+.notif-popup { position: absolute; bottom: 52px; right: 16px; width: 340px; background: #2b2b2b; border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); overflow: hidden; animation: slideUp 0.4s cubic-bezier(0.16,1,0.3,1); color: #fff; }
 @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-.notif-header { background: var(--primary); padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; }
-.notif-header-left { display: flex; align-items: center; gap: 8px; color: #fff; font-size: 12px; font-weight: 600; }
-.notif-header-right { display: flex; align-items: center; gap: 8px; }
-.notif-header-right .countdown { font-size: 10px; color: rgba(255,255,255,0.7); }
-.notif-close { background: none; border: none; color: #fff; font-size: 16px; padding: 0; line-height: 1; }
-.notif-body { padding: 16px 18px; }
-.notif-title { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
-.notif-subtitle { font-size: 13px; color: var(--text-light); line-height: 1.5; }
-.notif-stats { display: flex; flex-direction: column; gap: 6px; margin: 10px 0 14px; padding: 10px 12px; background: var(--bg-light); border-radius: 6px; font-size: 12px; }
-.notif-stat { display: flex; justify-content: space-between; }
-.notif-stat-label { color: var(--text-light); }
+.notif-source { padding: 10px 14px 8px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #3a3a3a; }
+.notif-source-left { display: flex; align-items: center; gap: 8px; }
+.notif-source-icon { width: 16px; height: 16px; border-radius: 3px; background: var(--primary); display: flex; align-items: center; justify-content: center; }
+.notif-source-icon svg { width: 10px; height: 10px; }
+.notif-source-name { font-size: 11px; color: #aaa; font-weight: 500; }
+.notif-source-time { font-size: 10px; color: #666; }
+.notif-close { background: none; border: none; color: #666; font-size: 16px; padding: 0 2px; line-height: 1; }
+.notif-close:hover { color: #aaa; }
+.notif-body { padding: 12px 14px 14px; }
+.notif-title { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+.notif-subtitle { font-size: 12px; color: #bbb; line-height: 1.5; margin-bottom: 10px; }
+.notif-stats { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+.notif-stat { display: flex; justify-content: space-between; font-size: 11px; padding: 4px 8px; background: #333; border-radius: 4px; }
+.notif-stat-label { color: #999; }
 .notif-stat-value { color: var(--accent); font-weight: 600; }
-.notif-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; }
-.notif-actions { display: flex; justify-content: center; gap: 16px; font-size: 11px; margin-top: 8px; }
-.notif-action-link { background: none; border: none; font-size: 11px; text-decoration: underline; cursor: pointer; }
-.notif-action-link.remind { color: var(--link); }
-.notif-action-link.suppress { color: var(--text-muted); }
+.notif-cta { width: 100%; padding: 9px 0; background: var(--primary); color: #fff; border: none; border-radius: 5px; font-size: 13px; font-weight: 600; transition: background 0.2s; }
+.notif-cta:hover { background: var(--primary-hover); }
+.notif-actions { display: flex; justify-content: center; gap: 16px; margin-top: 8px; }
+.notif-action-link { background: none; border: none; font-size: 10px; cursor: pointer; }
+.notif-action-link.remind { color: #6BA3D6; text-decoration: underline; }
+.notif-action-link.suppress { color: #777; text-decoration: underline; }
 
-.confirm-popup { position: absolute; bottom: 52px; right: 16px; width: 360px; background: #fff; border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); padding: 24px; text-align: center; }
+.confirm-popup { position: absolute; bottom: 52px; right: 16px; width: 340px; background: #2b2b2b; border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); padding: 24px; text-align: center; color: #fff; }
 .confirm-popup .icon { font-size: 28px; margin-bottom: 8px; }
-.confirm-popup .title { font-size: 15px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
-.confirm-popup .desc { font-size: 13px; color: var(--text-light); margin-bottom: 16px; }
-.confirm-popup button { padding: 8px 24px; background: var(--bg-light); border: 1px solid var(--border); border-radius: 5px; font-size: 12px; color: var(--text); }
+.confirm-popup .title { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+.confirm-popup .desc { font-size: 12px; color: #aaa; margin-bottom: 16px; }
+.confirm-popup button { padding: 8px 24px; background: #444; border: 1px solid #555; border-radius: 5px; font-size: 12px; color: #ddd; }
 
 .dismissed-msg { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); padding: 10px 20px; border-radius: 20px; color: #fff; font-size: 12px; white-space: nowrap; }
 .dismissed-msg button { background: none; border: none; color: var(--primary); font-size: 12px; text-decoration: underline; cursor: pointer; }
 
+/* Scenario switcher */
+.scenario-bar { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; background: rgba(0,0,0,0.5); padding: 4px; border-radius: 8px; z-index: 10; }
+.scenario-btn { padding: 5px 12px; border-radius: 6px; font-size: 10px; font-weight: 600; border: none; background: transparent; color: rgba(255,255,255,0.5); transition: all 0.2s; }
+.scenario-btn.active { background: var(--primary); color: #fff; }
+.scenario-btn:hover:not(.active) { color: rgba(255,255,255,0.8); }
+
 /* Layout helpers */
-.two-col { display: flex; justify-content: center; gap: 32px; padding: 24px 32px; }
-.hero-banner { background: linear-gradient(135deg, var(--bg-light) 0%, #e8f5e9 100%); padding: 28px 0 20px; text-align: center; }
-.hero-banner h1 { font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
-.hero-banner p { font-size: 14px; color: var(--text-light); }
+.two-col { display: flex; justify-content: center; gap: 24px; padding: 20px 32px; }
 
 /* Payment tabs */
 .pay-tabs { display: flex; gap: 10px; margin-bottom: 16px; }
@@ -123,6 +135,10 @@ input:focus { border-color: var(--primary) !important; }
 .pay-tab.active { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
 .card-brands { display: flex; gap: 6px; margin-bottom: 16px; }
 .card-brand { padding: 4px 10px; border: 1px solid var(--border); border-radius: 3px; font-size: 10px; font-weight: 700; color: var(--text-muted); }
+
+/* Intro pricing badge */
+.price-intro { display: inline-block; padding: 2px 8px; background: var(--accent); color: #fff; border-radius: 3px; font-size: 10px; font-weight: 700; }
+.price-strike { text-decoration: line-through; color: var(--text-muted); font-size: 13px; }
 
 /* Confirmation */
 .success-banner { background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); border-radius: 8px; padding: 24px 28px; text-align: center; margin-bottom: 20px; border: 1px solid rgba(76,175,80,0.2); }
@@ -139,12 +155,8 @@ input:focus { border-color: var(--primary) !important; }
 .step-card-desc { font-size: 11px; color: var(--text-light); }
 .order-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 12px; }
 .renewal-note { margin-top: 10px; padding: 8px 12px; background: #FFF8E1; border-radius: 4px; font-size: 11px; color: var(--warning); }
+.dm-note { margin-top: 10px; padding: 10px 12px; background: var(--primary-light); border-radius: 6px; font-size: 12px; color: var(--dark); display: flex; align-items: center; gap: 8px; }
 
-.scenario-switcher { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; z-index: 10; }
-.scenario-btn { padding: 6px 12px; border-radius: 16px; font-size: 11px; font-weight: 600; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.4); color: rgba(255,255,255,0.7); transition: all 0.2s; backdrop-filter: blur(4px); }
-.scenario-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-.scenario-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
-.scenario-label { position: absolute; top: 56px; left: 50%; transform: translateX(-50%); font-size: 10px; color: rgba(255,255,255,0.5); white-space: nowrap; }
 .hidden { display: none !important; }
 </style>
 </head>
@@ -154,24 +166,27 @@ input:focus { border-color: var(--primary) !important; }
 <div class="proto-nav">
   <div class="proto-nav-title">
     <svg width="24" height="24" viewBox="0 0 40 40" fill="none"><path d="M20 2L4 10V20C4 30 20 38 20 38C20 38 36 30 36 20V10L20 2Z" fill="#4CAF50"/><path d="M20 6L8 12V20C8 28 20 34 20 34C20 34 32 28 32 20V12L20 6Z" fill="#66BB6A"/><path d="M17 20L19 22L24 17" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <span>Cleario POC — Clickable Prototype</span>
+    <span>Cleario POC — Clickable Prototype v2</span>
     <small>March 2026</small>
   </div>
   <div class="proto-nav-btns">
     <button class="active" onclick="goScreen(0)">1. Notification</button>
-    <button onclick="goScreen(1)">2. Your Info</button>
-    <button onclick="goScreen(2)">3. Review & Pay</button>
-    <button onclick="goScreen(3)">4. Confirmation</button>
+    <button onclick="goScreen(1)">2. Info & Payment</button>
+    <button onclick="goScreen(2)">3. Confirmation</button>
   </div>
+</div>
+
+<!-- Changelog -->
+<div class="changelog">
+  <strong>v2 changes (RealDefense sync):</strong> Hybrid landing+cart page (2 steps instead of 3) · System-alert notification style with source attribution · 10 devices · Intro/renewal pricing · DM key injection (no manual activate) · Design consistency
 </div>
 
 <div class="screen-wrap">
   <!-- Flow bar -->
   <div class="flow-bar">
     <span class="flow-pill active" id="fp0">Notification</span><span class="flow-arrow">→</span>
-    <span class="flow-pill" id="fp1">Your Info</span><span class="flow-arrow">→</span>
-    <span class="flow-pill" id="fp2">Review & Pay</span><span class="flow-arrow">→</span>
-    <span class="flow-pill" id="fp3">Confirmation</span>
+    <span class="flow-pill" id="fp1">Info & Payment</span><span class="flow-arrow">→</span>
+    <span class="flow-pill" id="fp2">Confirmation</span>
   </div>
 
   <div class="screen-frame">
@@ -187,37 +202,36 @@ input:focus { border-color: var(--primary) !important; }
         <div class="desktop-icon"><div class="desktop-icon-box">📁</div><span class="desktop-icon-label">Documents</span></div>
         <div class="desktop-icon"><div class="desktop-icon-box">🌐</div><span class="desktop-icon-label">Browser</span></div>
       </div>
-      <div class="sim-badge">Simulated Windows Desktop</div>
-      <div class="scenario-switcher">
+
+      <!-- Scenario switcher -->
+      <div class="scenario-bar">
         <button class="scenario-btn active" onclick="switchScenario('multi')">Multi-Issue</button>
         <button class="scenario-btn" onclick="switchScenario('memory')">Memory</button>
         <button class="scenario-btn" onclick="switchScenario('registry')">Registry</button>
-        <button class="scenario-btn" onclick="switchScenario('junk')">Junk</button>
+        <button class="scenario-btn" onclick="switchScenario('junk')">Junk Files</button>
       </div>
-      <div class="scenario-label">Single dynamic notification — content adapts to scan results</div>
 
-      <!-- Notification -->
+      <div class="sim-badge">Simulated Windows Desktop</div>
+
+      <!-- System-alert style notification -->
       <div id="notif-main" class="notif-popup hidden">
-        <div class="notif-header">
-          <div class="notif-header-left">
-            <svg width="20" height="20" viewBox="0 0 40 40" fill="none"><path d="M20 2L4 10V20C4 30 20 38 20 38C20 38 36 30 36 20V10L20 2Z" fill="#fff" opacity="0.3"/><path d="M20 6L8 12V20C8 28 20 34 20 34C20 34 32 28 32 20V12L20 6Z" fill="#fff" opacity="0.2"/><path d="M17 20L19 22L24 17" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Cleario PC Optimizer
+        <div class="notif-source">
+          <div class="notif-source-left">
+            <div class="notif-source-icon"><svg viewBox="0 0 40 40" fill="none"><path d="M20 2L4 10V20C4 30 20 38 20 38C20 38 36 30 36 20V10L20 2Z" fill="#fff"/></svg></div>
+            <span class="notif-source-name">Adaware Privacy</span>
+            <span class="notif-source-time" id="countdown">15s</span>
           </div>
-          <div class="notif-header-right">
-            <span class="countdown" id="countdown">12s</span>
-            <button class="notif-close" onclick="dismissNotif()">×</button>
-          </div>
+          <button class="notif-close" onclick="dismissNotif()">×</button>
         </div>
         <div class="notif-body">
           <div class="notif-title" id="notif-headline">Your PC needs attention</div>
-          <div class="notif-subtitle" id="notif-subtitle">We found <strong style="color:var(--accent)">3 performance issues</strong> on your computer:</div>
+          <div class="notif-subtitle" id="notif-desc">We found <strong style="color:var(--accent)">3 performance issues</strong> on your computer:</div>
           <div class="notif-stats" id="notif-stats">
             <div class="notif-stat"><span class="notif-stat-label">Available Memory</span><span class="notif-stat-value">18% — Low</span></div>
             <div class="notif-stat"><span class="notif-stat-label">Registry Issues</span><span class="notif-stat-value">47 issues</span></div>
             <div class="notif-stat"><span class="notif-stat-label">Junk Files</span><span class="notif-stat-value">1.8 GB</span></div>
           </div>
-          <div class="notif-desc" id="notif-desc">Your computer may not be running at its best. Resolve these issues with Cleario.</div>
-          <button class="btn-primary" style="font-size:14px; padding:11px 0; margin-bottom:8px;" onclick="goScreen(1)">RESOLVE NOW</button>
+          <button class="notif-cta" onclick="goScreen(1)">Resolve Now</button>
           <div class="notif-actions">
             <button class="notif-action-link remind" onclick="showConfirm('remind')">Remind me later</button>
             <button class="notif-action-link suppress" onclick="showConfirm('suppress')">Don't show again</button>
@@ -229,7 +243,7 @@ input:focus { border-color: var(--primary) !important; }
       <div id="notif-remind" class="confirm-popup hidden">
         <div class="icon">⏰</div>
         <div class="title">Got it!</div>
-        <div class="desc">We'll remind you about these issues in a few days.</div>
+        <div class="desc">We'll check again in a few days.</div>
         <button onclick="dismissNotif()">OK</button>
       </div>
 
@@ -237,7 +251,7 @@ input:focus { border-color: var(--primary) !important; }
       <div id="notif-suppress" class="confirm-popup hidden">
         <div class="icon">✓</div>
         <div class="title">Notifications disabled</div>
-        <div class="desc">You won't see Cleario notifications again. You can always optimize your PC at cleario.com.</div>
+        <div class="desc">You won't see these alerts again. You can always optimize your PC at cleario.com.</div>
         <button onclick="dismissNotif()">OK</button>
       </div>
 
@@ -247,7 +261,7 @@ input:focus { border-color: var(--primary) !important; }
       </div>
     </div>
 
-    <!-- ==================== SCREEN 1: YOUR INFO ==================== -->
+    <!-- ==================== SCREEN 1: HYBRID INFO & PAYMENT ==================== -->
     <div id="screen1" class="hidden" style="min-height:580px; display:flex; flex-direction:column; background:var(--bg-light);">
       <div class="header">
         <div class="header-logo">
@@ -260,34 +274,92 @@ input:focus { border-color: var(--primary) !important; }
         </div>
       </div>
       <div class="step-indicator">
-        <div class="step-item"><div class="step-num active">1</div><span class="step-label active">Your Info</span></div>
-        <div class="step-item"><div class="step-num inactive">2</div><span class="step-label">Review & Pay</span></div>
-        <div class="step-item"><div class="step-num inactive">3</div><span class="step-label">Activation</span></div>
+        <div class="step-item"><div class="step-num active">1</div><span class="step-label active">Info & Payment</span></div>
+        <div class="step-item"><div class="step-num inactive">2</div><span class="step-label">Download</span></div>
       </div>
-      <div class="hero-banner"><h1>Optimize your PC today</h1><p>Get started with Cleario PC Optimizer</p></div>
       <div class="two-col" style="flex:1;">
-        <div style="width:380px;">
-          <div class="card" style="padding:28px;">
-            <div style="display:flex; flex-direction:column; gap:14px;">
-              <input class="input-field" placeholder="First Name">
-              <input class="input-field" placeholder="Last Name">
-              <input class="input-field" placeholder="Email" type="email">
-              <label style="display:flex; gap:8px; font-size:11px; color:var(--text-light); cursor:pointer; align-items:flex-start;">
-                <input type="checkbox" style="margin-top:2px;">
-                Yes! Please keep me informed by email about product updates, upgrades, special offers and other opportunities from Cleario.
-              </label>
+        <!-- Left: Product + Your Info + Payment combined -->
+        <div style="width:440px;">
+          <div class="card" style="padding:24px;">
+            <!-- Product summary -->
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid var(--border-light);">
+              <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><path d="M20 2L4 10V20C4 30 20 38 20 38C20 38 36 30 36 20V10L20 2Z" fill="#4CAF50"/><path d="M20 6L8 12V20C8 28 20 34 20 34C20 34 32 28 32 20V12L20 6Z" fill="#66BB6A"/><path d="M17 20L19 22L24 17" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div style="flex:1;">
+                <div style="font-size:16px; font-weight:700; color:var(--dark);">Cleario <span style="color:var(--primary)">PC Optimizer</span></div>
+                <div style="font-size:12px; color:var(--text-muted);">1 Year — Up to 10 Devices</div>
+              </div>
+              <div style="text-align:right;">
+                <span class="price-intro">INTRO PRICE</span>
+                <div style="font-size:18px; font-weight:700; color:var(--dark); margin-top:2px;">CAD$29.99<span style="font-size:11px; font-weight:400; color:var(--text-muted);">/yr</span></div>
+                <div class="price-strike">CAD$59.99/yr</div>
+              </div>
             </div>
-            <button class="btn-primary" style="margin-top:20px;" onclick="goScreen(2)">CONTINUE</button>
-            <p style="font-size:11px; color:var(--text-muted); text-align:center; margin-top:12px;">The information you provide will be handled in accordance with our <span style="color:var(--link); text-decoration:underline; cursor:pointer;">Privacy Policy</span>.</p>
+            <!-- Your Info -->
+            <div style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:10px;">Your Information</div>
+            <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:18px;">
+              <div style="display:flex; gap:10px;">
+                <input class="input-field" placeholder="First Name" style="font-size:13px; padding:10px 12px;">
+                <input class="input-field" placeholder="Last Name" style="font-size:13px; padding:10px 12px;">
+              </div>
+              <input class="input-field" placeholder="Email" type="email" style="font-size:13px; padding:10px 12px;">
+            </div>
+            <!-- Payment -->
+            <div style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:10px;">Payment Method</div>
+            <div class="pay-tabs">
+              <button class="pay-tab active" id="tab-card" onclick="switchPay('card')">💳 Card</button>
+              <button class="pay-tab" id="tab-paypal" onclick="switchPay('paypal')">🅿️ PayPal</button>
+            </div>
+            <div id="pay-card">
+              <div class="card-brands"><span class="card-brand">VISA</span><span class="card-brand">MC</span><span class="card-brand">AMEX</span></div>
+              <div style="display:flex; flex-direction:column; gap:10px;">
+                <input class="input-field" placeholder="Card Number" style="font-size:13px; padding:10px 12px;">
+                <div style="display:flex; gap:10px;">
+                  <input class="input-field" placeholder="MM / YYYY" style="width:120px; font-size:13px; padding:10px 12px;">
+                  <input class="input-field" placeholder="CVC" style="width:80px; font-size:13px; padding:10px 12px;">
+                  <input class="input-field" placeholder="Zip / Postal" style="flex:1; font-size:13px; padding:10px 12px;">
+                </div>
+              </div>
+            </div>
+            <div id="pay-paypal" class="hidden" style="text-align:center; padding:20px 0; color:var(--text-light); font-size:13px;">
+              <div style="font-size:32px; margin-bottom:8px;">🅿️</div>
+              You will be redirected to PayPal to complete your purchase.
+            </div>
+            <label style="display:flex; gap:8px; font-size:10px; color:var(--text-light); cursor:pointer; align-items:flex-start; margin-top:12px;">
+              <input type="checkbox" style="margin-top:2px;">
+              Keep me informed about product updates and special offers from Cleario.
+            </label>
+            <div style="font-size:9px; color:var(--text-muted); line-height:1.6; margin-top:10px;">
+              By clicking "Complete Purchase" you agree to our <span style="color:var(--link); text-decoration:underline;">Terms Of Sale</span> and <span style="color:var(--link); text-decoration:underline;">Privacy Policy</span>. Your subscription will <strong>auto-renew at CAD$59.99/yr</strong> after the first year. Cancel anytime.
+            </div>
+            <button class="btn-primary" style="margin-top:14px;" onclick="goScreen(2)">COMPLETE PURCHASE — CAD$34.48</button>
+            <div style="display:flex; justify-content:center; gap:16px; margin-top:10px;">
+              <div class="trust-badge"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" fill="#4CAF50" opacity="0.2"/><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" stroke="#4CAF50" stroke-width="1"/><path d="M6 8L7.5 9.5L10.5 6.5" stroke="#4CAF50" stroke-width="1" stroke-linecap="round"/></svg>100% Satisfaction</div>
+              <div class="trust-badge"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" fill="#4CAF50" opacity="0.2"/><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" stroke="#4CAF50" stroke-width="1"/><path d="M6 8L7.5 9.5L10.5 6.5" stroke="#4CAF50" stroke-width="1" stroke-linecap="round"/></svg>Verified & Secured</div>
+            </div>
           </div>
         </div>
-        <div style="width:260px;">
-          <div style="font-size:16px; font-weight:700; color:var(--dark); margin-bottom:14px;">PC Optimization with Cleario</div>
+        <!-- Right: Benefits sidebar -->
+        <div style="width:240px;">
+          <div style="font-size:15px; font-weight:700; color:var(--dark); margin-bottom:14px;">What you get</div>
           <div class="check-icon"><span class="check-dot">✓</span> Speed up your computer</div>
           <div class="check-icon"><span class="check-dot">✓</span> Clean junk files & free space</div>
           <div class="check-icon"><span class="check-dot">✓</span> Fix registry issues</div>
           <div class="check-icon"><span class="check-dot">✓</span> Optimize memory usage</div>
-          <div class="check-icon"><span class="check-dot">✓</span> Improve system startup time</div>
+          <div class="check-icon"><span class="check-dot">✓</span> Improve startup time</div>
+          <div class="check-icon"><span class="check-dot">✓</span> Up to 10 devices</div>
+          <div style="margin-top:16px; padding:12px; background:var(--primary-light); border-radius:6px;">
+            <div style="font-size:12px; font-weight:700; color:var(--primary); margin-bottom:4px;">30-Day Money Back</div>
+            <div style="font-size:11px; color:var(--text-light);">Not satisfied? Get a full refund within 30 days, no questions asked.</div>
+          </div>
+          <div style="margin-top:12px; padding:12px; background:var(--bg-light); border:1px solid var(--border); border-radius:6px;">
+            <div style="font-size:11px; font-weight:700; color:var(--dark); margin-bottom:4px;">Order Summary</div>
+            <div class="order-row" style="margin-bottom:4px;"><span style="color:var(--text-light); font-size:11px;">Cleario 1-Year</span><span style="font-weight:600; font-size:11px;">CAD$29.99</span></div>
+            <div class="order-row" style="margin-bottom:4px;"><span style="color:var(--text-muted); font-size:10px;">GST+PST</span><span style="color:var(--text-muted); font-size:10px;">CAD$4.49</span></div>
+            <div class="order-row" style="font-weight:700; border-top:1px solid var(--border); padding-top:6px; margin-top:2px;">
+              <span style="color:var(--dark); font-size:12px;">Total</span><span style="color:var(--dark); font-size:12px;">CAD$34.48</span>
+            </div>
+            <div style="font-size:10px; color:var(--success); font-weight:600; margin-top:4px;">You save CAD$30.00 (50% off)</div>
+          </div>
         </div>
       </div>
       <div class="footer">
@@ -297,7 +369,7 @@ input:focus { border-color: var(--primary) !important; }
       </div>
     </div>
 
-    <!-- ==================== SCREEN 2: REVIEW & PAY ==================== -->
+    <!-- ==================== SCREEN 2: CONFIRMATION ==================== -->
     <div id="screen2" class="hidden" style="min-height:580px; display:flex; flex-direction:column; background:var(--bg-light);">
       <div class="header">
         <div class="header-logo">
@@ -310,102 +382,8 @@ input:focus { border-color: var(--primary) !important; }
         </div>
       </div>
       <div class="step-indicator">
-        <div class="step-item"><div class="step-num done">✓</div><span class="step-label">Your Info</span></div>
-        <div class="step-item"><div class="step-num active">2</div><span class="step-label active">Review & Pay</span></div>
-        <div class="step-item"><div class="step-num inactive">3</div><span class="step-label">Activation</span></div>
-      </div>
-      <div class="two-col" style="flex:1;">
-        <!-- Product -->
-        <div style="width:340px;">
-          <div class="card">
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
-              <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><path d="M20 2L4 10V20C4 30 20 38 20 38C20 38 36 30 36 20V10L20 2Z" fill="#4CAF50"/><path d="M20 6L8 12V20C8 28 20 34 20 34C20 34 32 28 32 20V12L20 6Z" fill="#66BB6A"/><path d="M17 20L19 22L24 17" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <div>
-                <div style="font-size:18px; font-weight:700; color:var(--dark);">Cleario <span style="color:var(--primary)">PC Optimizer</span></div>
-                <div style="font-size:12px; color:var(--text-muted);">1 Year — Up to 5 Devices</div>
-              </div>
-            </div>
-            <div style="font-size:13px; color:var(--text-light); margin-bottom:16px; line-height:1.6;">Complete PC optimization to keep your computer running fast and clean.</div>
-            <div style="border-top:1px solid var(--border-light); padding-top:14px; margin-bottom:14px;">
-              <div class="check-icon"><span class="check-dot">✓</span> Advanced PC diagnostics & repair</div>
-              <div class="check-icon"><span class="check-dot">✓</span> Registry cleaning & optimization</div>
-              <div class="check-icon"><span class="check-dot">✓</span> Junk file removal</div>
-              <div class="check-icon"><span class="check-dot">✓</span> Memory optimization</div>
-              <div class="check-icon"><span class="check-dot">✓</span> Startup speed boost</div>
-            </div>
-            <div style="border-top:1px solid var(--border-light); padding-top:14px;">
-              <div class="order-row"><span style="color:var(--text-light)">Cleario PC Optimizer — 1 Year</span><span style="font-weight:600">CAD$54.59</span></div>
-              <div class="order-row"><span style="color:var(--text-muted); font-size:12px;">GST+PST</span><span style="color:var(--text-muted)">CAD$8.17</span></div>
-              <div class="order-row" style="font-size:15px; font-weight:700; border-top:1px solid var(--border); padding-top:10px; margin-top:4px;">
-                <span style="color:var(--dark)">Total</span><span style="color:var(--dark)">CAD$62.76</span>
-              </div>
-              <div style="font-size:12px; color:var(--success); font-weight:600;">You save: CAD$62.77</div>
-            </div>
-          </div>
-        </div>
-        <!-- Payment -->
-        <div style="width:400px;">
-          <div class="card">
-            <div style="font-size:15px; font-weight:700; color:var(--dark); margin-bottom:16px;">Payment method</div>
-            <div class="pay-tabs">
-              <button class="pay-tab active" id="tab-card" onclick="switchPay('card')">💳 Card</button>
-              <button class="pay-tab" id="tab-paypal" onclick="switchPay('paypal')">🅿️ PayPal</button>
-            </div>
-            <div id="pay-card">
-              <div class="card-brands"><span class="card-brand">VISA</span><span class="card-brand">MC</span><span class="card-brand">AMEX</span></div>
-              <div style="display:flex; flex-direction:column; gap:12px;">
-                <input class="input-field" placeholder="Card Holder's Name" style="font-size:13px; padding:11px 14px;">
-                <input class="input-field" placeholder="Card Number" style="font-size:13px; padding:11px 14px;">
-                <div style="display:flex; gap:10px;">
-                  <input class="input-field" placeholder="MM" style="width:60px; font-size:13px; padding:11px 10px; text-align:center;">
-                  <span style="align-self:center; color:var(--text-muted);">/</span>
-                  <input class="input-field" placeholder="YYYY" style="width:70px; font-size:13px; padding:11px 10px; text-align:center;">
-                  <input class="input-field" placeholder="Security Code" style="flex:1; font-size:13px; padding:11px 14px;">
-                </div>
-                <div style="display:flex; gap:10px;">
-                  <input class="input-field" placeholder="Email" value="user@example.com" style="flex:1; font-size:13px; padding:11px 14px;">
-                  <input class="input-field" placeholder="Zip / Postal" style="width:130px; font-size:13px; padding:11px 14px;">
-                </div>
-              </div>
-            </div>
-            <div id="pay-paypal" class="hidden" style="text-align:center; padding:24px 0; color:var(--text-light); font-size:13px;">
-              <div style="font-size:32px; margin-bottom:8px;">🅿️</div>
-              You will be redirected to PayPal to complete your purchase.
-            </div>
-            <div style="font-size:10px; color:var(--text-muted); line-height:1.6; margin-top:16px;">
-              By clicking "Process Payment" you agree to our <span style="color:var(--link); text-decoration:underline;">Terms Of Sale</span> and <span style="color:var(--link); text-decoration:underline;">Privacy Policy</span>. You also agree to <strong>automatic renewal</strong> at end of term. Cancel anytime.
-            </div>
-            <button class="btn-primary" style="margin-top:16px;" onclick="goScreen(3)">PROCESS PAYMENT</button>
-            <div style="display:flex; justify-content:center; gap:16px; margin-top:12px;">
-              <div class="trust-badge"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" fill="#4CAF50" opacity="0.2"/><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" stroke="#4CAF50" stroke-width="1"/><path d="M6 8L7.5 9.5L10.5 6.5" stroke="#4CAF50" stroke-width="1" stroke-linecap="round"/></svg>100% Satisfaction</div>
-              <div class="trust-badge"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" fill="#4CAF50" opacity="0.2"/><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" stroke="#4CAF50" stroke-width="1"/><path d="M6 8L7.5 9.5L10.5 6.5" stroke="#4CAF50" stroke-width="1" stroke-linecap="round"/></svg>Verified & Secured</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="footer">
-        <div class="footer-links"><span>Contact Us</span><span>Privacy Policy</span><span>Refund Policy</span><span>Terms of Sale</span></div>
-        <div>Cleario® is a registered trademark of Avanquest®. Copyright © 2026 All rights reserved.</div>
-        <div>Transaction processed by Upclick Canada, DBA Upclick.</div>
-      </div>
-    </div>
-
-    <!-- ==================== SCREEN 3: CONFIRMATION ==================== -->
-    <div id="screen3" class="hidden" style="min-height:580px; display:flex; flex-direction:column; background:var(--bg-light);">
-      <div class="header">
-        <div class="header-logo">
-          <svg width="36" height="36" viewBox="0 0 40 40" fill="none"><path d="M20 2L4 10V20C4 30 20 38 20 38C20 38 36 30 36 20V10L20 2Z" fill="#4CAF50"/><path d="M20 6L8 12V20C8 28 20 34 20 34C20 34 32 28 32 20V12L20 6Z" fill="#66BB6A"/><path d="M17 20L19 22L24 17" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span class="header-logo-text">Cleario</span>
-        </div>
-        <div class="header-badges">
-          <div class="trust-badge"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" fill="#4CAF50" opacity="0.2"/><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" stroke="#4CAF50" stroke-width="1"/><path d="M6 8L7.5 9.5L10.5 6.5" stroke="#4CAF50" stroke-width="1" stroke-linecap="round"/></svg>30-Day Money Back</div>
-          <div class="trust-badge"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" fill="#4CAF50" opacity="0.2"/><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" stroke="#4CAF50" stroke-width="1"/><path d="M6 8L7.5 9.5L10.5 6.5" stroke="#4CAF50" stroke-width="1" stroke-linecap="round"/></svg>Verified & Secured</div>
-        </div>
-      </div>
-      <div class="step-indicator">
-        <div class="step-item"><div class="step-num done">✓</div><span class="step-label">Your Info</span></div>
-        <div class="step-item"><div class="step-num done">✓</div><span class="step-label">Review & Pay</span></div>
-        <div class="step-item"><div class="step-num active">3</div><span class="step-label active">Activation</span></div>
+        <div class="step-item"><div class="step-num done">✓</div><span class="step-label">Info & Payment</span></div>
+        <div class="step-item"><div class="step-num active">2</div><span class="step-label active">Download</span></div>
       </div>
       <div style="flex:1; display:flex; justify-content:center; padding:24px 32px;">
         <div style="width:560px;">
@@ -416,32 +394,45 @@ input:focus { border-color: var(--primary) !important; }
           </div>
 
           <div class="card" style="margin-bottom:16px;">
+            <div style="font-size:14px; font-weight:700; color:var(--dark); margin-bottom:16px;">Get Started</div>
+            <div class="steps-grid">
+              <div class="step-card"><div class="step-card-num">1</div><div class="step-card-title">Download</div><div class="step-card-desc">Download the Cleario installer</div></div>
+              <div class="step-card"><div class="step-card-num">2</div><div class="step-card-title">Install</div><div class="step-card-desc">Run the installer and follow prompts</div></div>
+              <div class="step-card" style="background:var(--primary-light); border:1px solid rgba(76,175,80,0.2);"><div class="step-card-num">✓</div><div class="step-card-title">Auto-Activated</div><div class="step-card-desc">License applied automatically</div></div>
+            </div>
+            <button class="btn-primary" style="display:flex; align-items:center; justify-content:center; gap:8px;">⬇ DOWNLOAD CLEARIO</button>
+            <div class="dm-note">
+              <span class="check-dot" style="width:20px; height:20px; font-size:11px;">✓</span>
+              <span>Your license key is embedded in the download — Cleario will activate automatically after install.</span>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:16px;">
             <div style="font-size:14px; font-weight:700; color:var(--dark); margin-bottom:12px;">Your License Key</div>
             <div class="license-box">
               <div class="license-key">CLR4X-9BMWK-JT7NF-2HPQR</div>
               <button class="copy-btn" id="copyBtn" onclick="copyKey()">Copy Key</button>
             </div>
-            <div style="font-size:11px; color:var(--text-muted); margin-top:8px;">Save this key — you'll need it to activate Cleario. It has also been sent to your email.</div>
+            <div style="font-size:11px; color:var(--text-muted); margin-top:8px;">Saved for your records. Also sent to your email. You won't need to enter this manually.</div>
           </div>
 
-          <div class="card" style="margin-bottom:16px;">
-            <div style="font-size:14px; font-weight:700; color:var(--dark); margin-bottom:16px;">Get Started in 3 Steps</div>
-            <div class="steps-grid">
-              <div class="step-card"><div class="step-card-num">1</div><div class="step-card-title">Download</div><div class="step-card-desc">Download the Cleario installer</div></div>
-              <div class="step-card"><div class="step-card-num">2</div><div class="step-card-title">Install</div><div class="step-card-desc">Run the installer and follow prompts</div></div>
-              <div class="step-card"><div class="step-card-num">3</div><div class="step-card-title">Activate</div><div class="step-card-desc">Enter your license key when prompted</div></div>
+          <div class="card" style="font-size:12px; margin-bottom:16px;">
+            <div style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:10px;">After Installing</div>
+            <div style="font-size:12px; color:var(--text-light); line-height:1.7;">
+              <strong>Can't find the installer?</strong> Check your Downloads folder or browser download bar.<br>
+              <strong>Windows SmartScreen?</strong> Click "More info" → "Run anyway" — Cleario is verified safe.<br>
+              <strong>Need help?</strong> Chat with our support bot or email support@cleario.com.
             </div>
-            <button class="btn-primary" style="display:flex; align-items:center; justify-content:center; gap:8px;">⬇ DOWNLOAD CLEARIO</button>
           </div>
 
           <div class="card" style="font-size:12px;">
             <div style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:10px;">Order Summary</div>
-            <div class="order-row"><span style="color:var(--text-light)">Cleario PC Optimizer — 1 Year (5 Devices)</span><span style="font-weight:600">CAD$54.59</span></div>
-            <div class="order-row"><span style="color:var(--text-muted)">GST+PST</span><span style="color:var(--text-muted)">CAD$8.17</span></div>
+            <div class="order-row"><span style="color:var(--text-light)">Cleario PC Optimizer — 1 Year (10 Devices)</span><span style="font-weight:600">CAD$29.99</span></div>
+            <div class="order-row"><span style="color:var(--text-muted)">GST+PST</span><span style="color:var(--text-muted)">CAD$4.49</span></div>
             <div class="order-row" style="font-weight:700; border-top:1px solid var(--border); padding-top:8px; margin-top:4px;">
-              <span style="color:var(--dark)">Total Charged</span><span style="color:var(--dark)">CAD$62.76</span>
+              <span style="color:var(--dark)">Total Charged</span><span style="color:var(--dark)">CAD$34.48</span>
             </div>
-            <div class="renewal-note">Your subscription will auto-renew in 1 year. Cancel anytime. 30-day money-back guarantee.</div>
+            <div class="renewal-note">Your subscription will auto-renew at CAD$59.99/yr after the first year. Cancel anytime. 30-day money-back guarantee.</div>
           </div>
         </div>
       </div>
@@ -462,94 +453,71 @@ input:focus { border-color: var(--primary) !important; }
 </div>
 
 <script>
-// Notification scenarios (single dynamic template)
+let currentScreen = 0;
+let countdownTimer = null;
+let countdownVal = 15;
+const totalScreens = 3;
+
+// Notification content variants
 const scenarios = {
   multi: {
     headline: 'Your PC needs attention',
-    subtitle: 'We found <strong style="color:var(--accent)">3 performance issues</strong> on your computer:',
+    desc: 'We found <strong style="color:#FF6B35">3 performance issues</strong> on your computer:',
     stats: [
-      { label: 'Available Memory', value: '18% \u2014 Low' },
+      { label: 'Available Memory', value: '18% — Low' },
       { label: 'Registry Issues', value: '47 issues' },
       { label: 'Junk Files', value: '1.8 GB' }
-    ],
-    desc: 'Your computer may not be running at its best. Resolve these issues with Cleario.'
+    ]
   },
   memory: {
     headline: 'Speed up your PC',
-    subtitle: 'Your available memory is running low:',
-    stats: [
-      { label: 'Available Memory', value: '18% \u2014 Low' }
-    ],
-    desc: 'Low memory could be slowing down your computer. Resolve this issue with Cleario.'
+    desc: 'Your available memory is running low, which could be slowing down your computer.',
+    stats: [{ label: 'Available Memory', value: '18% — Low' }]
   },
   registry: {
     headline: 'Improve your PC performance',
-    subtitle: 'We detected registry issues that may affect your system:',
-    stats: [
-      { label: 'Registry Issues', value: '47 issues' }
-    ],
-    desc: '47 registry issues detected that may be affecting your system speed.'
+    desc: 'Registry issues detected that may be affecting your system speed.',
+    stats: [{ label: 'Registry Issues', value: '47 issues' }]
   },
   junk: {
     headline: 'Free up space on your PC',
-    subtitle: 'Junk files are cluttering your system:',
-    stats: [
-      { label: 'Junk Files', value: '1.8 GB' }
-    ],
-    desc: '1.8 GB of junk files are cluttering your system and may impact performance.'
+    desc: 'Junk files are cluttering your system and may impact performance.',
+    stats: [{ label: 'Junk Files', value: '1.8 GB' }]
   }
 };
 
-let currentScenario = 'multi';
-
-function switchScenario(type) {
-  currentScenario = type;
-  const s = scenarios[type];
+function switchScenario(key) {
+  document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  const s = scenarios[key];
   document.getElementById('notif-headline').textContent = s.headline;
-  document.getElementById('notif-subtitle').innerHTML = s.subtitle;
-  document.getElementById('notif-stats').innerHTML = s.stats.map(function(st) {
-    return '<div class="notif-stat"><span class="notif-stat-label">' + st.label + '</span><span class="notif-stat-value">' + st.value + '</span></div>';
-  }).join('');
-  document.getElementById('notif-desc').textContent = s.desc;
-  document.querySelectorAll('.scenario-btn').forEach(function(btn) {
-    var key = btn.textContent.toLowerCase().replace('-issue','').trim();
-    btn.classList.toggle('active', key === type);
-  });
-  // Re-show notification if it was dismissed
-  if (document.getElementById('notif-main').classList.contains('hidden')) {
-    replayNotif();
-  }
+  document.getElementById('notif-desc').innerHTML = s.desc;
+  document.getElementById('notif-stats').innerHTML = s.stats.map(st =>
+    `<div class="notif-stat"><span class="notif-stat-label">${st.label}</span><span class="notif-stat-value">${st.value}</span></div>`
+  ).join('');
 }
-
-let currentScreen = 0;
-let countdownTimer = null;
-let countdownVal = 12;
 
 function goScreen(n) {
   currentScreen = n;
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < totalScreens; i++) {
     document.getElementById('screen' + i).classList.toggle('hidden', i !== n);
     if (i !== 0) document.getElementById('screen' + i).style.display = i === n ? 'flex' : 'none';
   }
-  // Nav buttons
   document.querySelectorAll('.proto-nav-btns button').forEach((btn, i) => btn.classList.toggle('active', i === n));
   document.querySelectorAll('.flow-pill').forEach((pill, i) => pill.classList.toggle('active', i === n));
   document.getElementById('prevBtn').disabled = n === 0;
-  document.getElementById('nextBtn').disabled = n === 3;
-  document.getElementById('nextBtn').style.opacity = n === 3 ? '0.4' : '1';
-  
-  // Auto-show notification on screen 0
+  document.getElementById('nextBtn').disabled = n === totalScreens - 1;
+  document.getElementById('nextBtn').style.opacity = n === totalScreens - 1 ? '0.4' : '1';
   if (n === 0) startNotif();
 }
 
-function nextScreen() { if (currentScreen < 3) goScreen(currentScreen + 1); }
+function nextScreen() { if (currentScreen < totalScreens - 1) goScreen(currentScreen + 1); }
 function prevScreen() { if (currentScreen > 0) goScreen(currentScreen - 1); }
 
-// Notification logic
 function startNotif() {
   clearInterval(countdownTimer);
   hideAllNotif();
-  countdownVal = 12;
+  countdownVal = 15;
   setTimeout(() => {
     document.getElementById('notif-main').classList.remove('hidden');
     countdownTimer = setInterval(() => {
@@ -580,7 +548,6 @@ function replayNotif() {
   startNotif();
 }
 
-// Payment tabs
 function switchPay(method) {
   document.getElementById('pay-card').classList.toggle('hidden', method !== 'card');
   document.getElementById('pay-paypal').classList.toggle('hidden', method !== 'paypal');
@@ -588,7 +555,6 @@ function switchPay(method) {
   document.getElementById('tab-paypal').classList.toggle('active', method === 'paypal');
 }
 
-// Copy key
 function copyKey() {
   const btn = document.getElementById('copyBtn');
   if (navigator.clipboard) navigator.clipboard.writeText('CLR4X-9BMWK-JT7NF-2HPQR');
@@ -597,7 +563,6 @@ function copyKey() {
   setTimeout(() => { btn.textContent = 'Copy Key'; btn.classList.remove('copied'); }, 2000);
 }
 
-// Init
 goScreen(0);
 </script>
 </body>
