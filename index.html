@@ -140,6 +140,11 @@ input:focus { border-color: var(--primary) !important; }
 .order-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 12px; }
 .renewal-note { margin-top: 10px; padding: 8px 12px; background: #FFF8E1; border-radius: 4px; font-size: 11px; color: var(--warning); }
 
+.scenario-switcher { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; z-index: 10; }
+.scenario-btn { padding: 6px 12px; border-radius: 16px; font-size: 11px; font-weight: 600; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.4); color: rgba(255,255,255,0.7); transition: all 0.2s; backdrop-filter: blur(4px); }
+.scenario-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.scenario-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+.scenario-label { position: absolute; top: 56px; left: 50%; transform: translateX(-50%); font-size: 10px; color: rgba(255,255,255,0.5); white-space: nowrap; }
 .hidden { display: none !important; }
 </style>
 </head>
@@ -183,6 +188,13 @@ input:focus { border-color: var(--primary) !important; }
         <div class="desktop-icon"><div class="desktop-icon-box">🌐</div><span class="desktop-icon-label">Browser</span></div>
       </div>
       <div class="sim-badge">Simulated Windows Desktop</div>
+      <div class="scenario-switcher">
+        <button class="scenario-btn active" onclick="switchScenario('multi')">Multi-Issue</button>
+        <button class="scenario-btn" onclick="switchScenario('memory')">Memory</button>
+        <button class="scenario-btn" onclick="switchScenario('registry')">Registry</button>
+        <button class="scenario-btn" onclick="switchScenario('junk')">Junk</button>
+      </div>
+      <div class="scenario-label">Single dynamic notification — content adapts to scan results</div>
 
       <!-- Notification -->
       <div id="notif-main" class="notif-popup hidden">
@@ -197,14 +209,14 @@ input:focus { border-color: var(--primary) !important; }
           </div>
         </div>
         <div class="notif-body">
-          <div class="notif-title">Your PC needs attention</div>
-          <div class="notif-subtitle">We found <strong style="color:var(--accent)">3 performance issues</strong> on your computer:</div>
-          <div class="notif-stats">
+          <div class="notif-title" id="notif-headline">Your PC needs attention</div>
+          <div class="notif-subtitle" id="notif-subtitle">We found <strong style="color:var(--accent)">3 performance issues</strong> on your computer:</div>
+          <div class="notif-stats" id="notif-stats">
             <div class="notif-stat"><span class="notif-stat-label">Available Memory</span><span class="notif-stat-value">18% — Low</span></div>
             <div class="notif-stat"><span class="notif-stat-label">Registry Issues</span><span class="notif-stat-value">47 issues</span></div>
             <div class="notif-stat"><span class="notif-stat-label">Junk Files</span><span class="notif-stat-value">1.8 GB</span></div>
           </div>
-          <div class="notif-desc">Your computer may not be running at its best. Resolve these issues with Cleario.</div>
+          <div class="notif-desc" id="notif-desc">Your computer may not be running at its best. Resolve these issues with Cleario.</div>
           <button class="btn-primary" style="font-size:14px; padding:11px 0; margin-bottom:8px;" onclick="goScreen(1)">RESOLVE NOW</button>
           <div class="notif-actions">
             <button class="notif-action-link remind" onclick="showConfirm('remind')">Remind me later</button>
@@ -450,6 +462,65 @@ input:focus { border-color: var(--primary) !important; }
 </div>
 
 <script>
+// Notification scenarios (single dynamic template)
+const scenarios = {
+  multi: {
+    headline: 'Your PC needs attention',
+    subtitle: 'We found <strong style="color:var(--accent)">3 performance issues</strong> on your computer:',
+    stats: [
+      { label: 'Available Memory', value: '18% \u2014 Low' },
+      { label: 'Registry Issues', value: '47 issues' },
+      { label: 'Junk Files', value: '1.8 GB' }
+    ],
+    desc: 'Your computer may not be running at its best. Resolve these issues with Cleario.'
+  },
+  memory: {
+    headline: 'Speed up your PC',
+    subtitle: 'Your available memory is running low:',
+    stats: [
+      { label: 'Available Memory', value: '18% \u2014 Low' }
+    ],
+    desc: 'Low memory could be slowing down your computer. Resolve this issue with Cleario.'
+  },
+  registry: {
+    headline: 'Improve your PC performance',
+    subtitle: 'We detected registry issues that may affect your system:',
+    stats: [
+      { label: 'Registry Issues', value: '47 issues' }
+    ],
+    desc: '47 registry issues detected that may be affecting your system speed.'
+  },
+  junk: {
+    headline: 'Free up space on your PC',
+    subtitle: 'Junk files are cluttering your system:',
+    stats: [
+      { label: 'Junk Files', value: '1.8 GB' }
+    ],
+    desc: '1.8 GB of junk files are cluttering your system and may impact performance.'
+  }
+};
+
+let currentScenario = 'multi';
+
+function switchScenario(type) {
+  currentScenario = type;
+  const s = scenarios[type];
+  document.getElementById('notif-headline').textContent = s.headline;
+  document.getElementById('notif-subtitle').innerHTML = s.subtitle;
+  document.getElementById('notif-stats').innerHTML = s.stats.map(function(st) {
+    return '<div class="notif-stat"><span class="notif-stat-label">' + st.label + '</span><span class="notif-stat-value">' + st.value + '</span></div>';
+  }).join('');
+  document.getElementById('notif-desc').textContent = s.desc;
+  document.querySelectorAll('.scenario-btn').forEach(function(btn) {
+    var key = btn.textContent.toLowerCase().replace('-issue','').trim();
+    btn.classList.toggle('active', key === type);
+  });
+  // Re-show notification if it was dismissed
+  if (document.getElementById('notif-main').classList.contains('hidden')) {
+    replayNotif();
+  }
+}
+
 let currentScreen = 0;
 let countdownTimer = null;
 let countdownVal = 12;
