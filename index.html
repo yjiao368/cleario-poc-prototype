@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cleario POC — Clickable Prototype</title>
+<title>Cleario POC — Clickable Prototype v3</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #F0F2F5; color: #333; }
@@ -28,6 +28,10 @@ input:focus { border-color: var(--primary) !important; }
 .proto-nav-btns button { padding: 6px 14px; border-radius: 4px; font-size: 12px; font-weight: 500; border: none; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); transition: all 0.2s; }
 .proto-nav-btns button.active { background: var(--primary); color: #fff; }
 .proto-nav-btns button:hover:not(.active) { background: rgba(255,255,255,0.2); }
+
+/* Changelog */
+.changelog { background: #FFF8E1; border-bottom: 1px solid #FFE082; padding: 8px 24px; font-size: 11px; color: #795548; }
+.changelog strong { color: #E65100; }
 
 /* Flow indicator */
 .flow-bar { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 16px; font-size: 12px; }
@@ -163,7 +167,7 @@ input:focus { border-color: var(--primary) !important; }
 <div class="proto-nav">
   <div class="proto-nav-title">
     <svg width="24" height="24" viewBox="0 0 40 40" fill="none"><path d="M20 2L4 10V20C4 30 20 38 20 38C20 38 36 30 36 20V10L20 2Z" fill="#4CAF50"/><path d="M20 6L8 12V20C8 28 20 34 20 34C20 34 32 28 32 20V12L20 6Z" fill="#66BB6A"/><path d="M17 20L19 22L24 17" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <span>Cleario POC — Clickable Prototype</span>
+    <span>Cleario POC — Clickable Prototype v3</span>
     <small>March 2026</small>
   </div>
   <div class="proto-nav-btns">
@@ -171,6 +175,10 @@ input:focus { border-color: var(--primary) !important; }
     <button onclick="goScreen(1)">2. Info & Payment</button>
     <button onclick="goScreen(2)">3. Confirmation</button>
   </div>
+</div>
+
+<div class="changelog">
+  <strong>v3 changes (Collab sync):</strong> Combined info+payment into single page (2 steps instead of 3) · Dark system-alert notification with Adaware attribution &amp; scenario switcher · Reduced green to CTA buttons + confirmation check only · "Recommended by Adaware" on checkout · Concise product summary · License auto-activates (no manual key entry) · "After Installing" help section for 60+ usability · Intro/renewal pricing &amp; email-not-required parked
 </div>
 
 <div class="screen-wrap">
