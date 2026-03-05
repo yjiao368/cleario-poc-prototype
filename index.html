@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cleario POC — Clickable Prototype v2</title>
+<title>Cleario POC — Clickable Prototype</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #F0F2F5; color: #333; }
@@ -29,10 +29,6 @@ input:focus { border-color: var(--primary) !important; }
 .proto-nav-btns button.active { background: var(--primary); color: #fff; }
 .proto-nav-btns button:hover:not(.active) { background: rgba(255,255,255,0.2); }
 
-/* Change log banner */
-.changelog { background: #FFF8E1; border-bottom: 1px solid #FFE082; padding: 8px 24px; font-size: 11px; color: #795548; }
-.changelog strong { color: #E65100; }
-
 /* Flow indicator */
 .flow-bar { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 16px; font-size: 12px; }
 .flow-pill { padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; border: 1px solid var(--border); color: var(--text-muted); }
@@ -48,15 +44,17 @@ input:focus { border-color: var(--primary) !important; }
 .step-indicator { display: flex; justify-content: center; gap: 60px; padding: 16px 0; }
 .step-item { display: flex; align-items: center; gap: 8px; }
 .step-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #fff; }
-.step-num.active, .step-num.done { background: var(--primary); }
+.step-num.active { background: var(--primary); }
+.step-num.done { background: #B0BEC5; }
 .step-num.inactive { background: var(--border); }
 .step-label { font-size: 13px; color: var(--text-muted); }
 .step-label.active { font-weight: 600; color: var(--dark); }
 .check-icon { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 12px; color: var(--text-light); }
-.check-dot { width: 18px; height: 18px; border-radius: 50%; background: var(--success); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; flex-shrink: 0; }
+.check-dot { width: 18px; height: 18px; border-radius: 50%; background: #B0BEC5; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; flex-shrink: 0; }
 .footer { background: var(--bg-light); border-top: 1px solid var(--border); padding: 20px 32px; text-align: center; font-size: 11px; color: var(--text-muted); line-height: 1.8; }
 .footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 8px; }
 .footer-links span { cursor: pointer; text-decoration: underline; }
+.trust-badge svg path { fill: #999 !important; stroke: #999 !important; }
 .btn-primary { width: 100%; padding: 13px 0; background: var(--primary); color: #fff; border: none; border-radius: 5px; font-size: 15px; font-weight: 700; letter-spacing: 0.5px; transition: background 0.2s; }
 .btn-primary:hover { background: var(--primary-hover); }
 .input-field { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 5px; font-size: 14px; color: var(--text); transition: border-color 0.2s; }
@@ -72,7 +70,7 @@ input:focus { border-color: var(--primary) !important; }
 .screen-nav button.next:hover { background: var(--primary-hover); }
 .screen-nav button:disabled { opacity: 0.4; cursor: default; }
 
-/* Screen 0: Notification — system-alert style */
+/* Screen 0: Notification */
 .desktop-bg { width: 100%; height: 580px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); position: relative; overflow: hidden; }
 .taskbar { position: absolute; bottom: 0; left: 0; right: 0; height: 40px; background: #1f1f2e; border-top: 1px solid #333; display: flex; align-items: center; padding: 0 12px; justify-content: space-between; }
 .taskbar-left { display: flex; gap: 8px; }
@@ -117,17 +115,21 @@ input:focus { border-color: var(--primary) !important; }
 .confirm-popup .desc { font-size: 12px; color: #aaa; margin-bottom: 16px; }
 .confirm-popup button { padding: 8px 24px; background: #444; border: 1px solid #555; border-radius: 5px; font-size: 12px; color: #ddd; }
 
-.dismissed-msg { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); padding: 10px 20px; border-radius: 20px; color: #fff; font-size: 12px; white-space: nowrap; }
-.dismissed-msg button { background: none; border: none; color: var(--primary); font-size: 12px; text-decoration: underline; cursor: pointer; }
+.notif-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; }
 
-/* Scenario switcher */
 .scenario-bar { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; background: rgba(0,0,0,0.5); padding: 4px; border-radius: 8px; z-index: 10; }
 .scenario-btn { padding: 5px 12px; border-radius: 6px; font-size: 10px; font-weight: 600; border: none; background: transparent; color: rgba(255,255,255,0.5); transition: all 0.2s; }
 .scenario-btn.active { background: var(--primary); color: #fff; }
 .scenario-btn:hover:not(.active) { color: rgba(255,255,255,0.8); }
 
+.dismissed-msg { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); padding: 10px 20px; border-radius: 20px; color: #fff; font-size: 12px; white-space: nowrap; }
+.dismissed-msg button { background: none; border: none; color: var(--primary); font-size: 12px; text-decoration: underline; cursor: pointer; }
+
 /* Layout helpers */
-.two-col { display: flex; justify-content: center; gap: 24px; padding: 20px 32px; }
+.two-col { display: flex; justify-content: center; gap: 32px; padding: 24px 32px; }
+.hero-banner { background: linear-gradient(135deg, var(--bg-light) 0%, #e8f5e9 100%); padding: 28px 0 20px; text-align: center; }
+.hero-banner h1 { font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+.hero-banner p { font-size: 14px; color: var(--text-light); }
 
 /* Payment tabs */
 .pay-tabs { display: flex; gap: 10px; margin-bottom: 16px; }
@@ -135,10 +137,6 @@ input:focus { border-color: var(--primary) !important; }
 .pay-tab.active { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
 .card-brands { display: flex; gap: 6px; margin-bottom: 16px; }
 .card-brand { padding: 4px 10px; border: 1px solid var(--border); border-radius: 3px; font-size: 10px; font-weight: 700; color: var(--text-muted); }
-
-/* Intro pricing badge */
-.price-intro { display: inline-block; padding: 2px 8px; background: var(--accent); color: #fff; border-radius: 3px; font-size: 10px; font-weight: 700; }
-.price-strike { text-decoration: line-through; color: var(--text-muted); font-size: 13px; }
 
 /* Confirmation */
 .success-banner { background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); border-radius: 8px; padding: 24px 28px; text-align: center; margin-bottom: 20px; border: 1px solid rgba(76,175,80,0.2); }
@@ -149,13 +147,12 @@ input:focus { border-color: var(--primary) !important; }
 .copy-btn:hover { background: var(--primary-hover); }
 .copy-btn.copied { background: var(--success); }
 .steps-grid { display: flex; gap: 16px; margin-bottom: 20px; }
-.step-card { flex: 1; text-align: center; padding: 14px; background: var(--bg-light); border-radius: 8px; }
-.step-card-num { width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; margin: 0 auto 8px; }
-.step-card-title { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
-.step-card-desc { font-size: 11px; color: var(--text-light); }
+.step-card { flex: 1; text-align: center; padding: 16px; background: var(--bg-light); border-radius: 8px; }
+.step-card-num { width: 36px; height: 36px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; margin: 0 auto 10px; }
+.step-card-title { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+.step-card-desc { font-size: 12px; color: var(--text-light); line-height: 1.5; }
 .order-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 12px; }
 .renewal-note { margin-top: 10px; padding: 8px 12px; background: #FFF8E1; border-radius: 4px; font-size: 11px; color: var(--warning); }
-.dm-note { margin-top: 10px; padding: 10px 12px; background: var(--primary-light); border-radius: 6px; font-size: 12px; color: var(--dark); display: flex; align-items: center; gap: 8px; }
 
 .hidden { display: none !important; }
 </style>
@@ -166,7 +163,7 @@ input:focus { border-color: var(--primary) !important; }
 <div class="proto-nav">
   <div class="proto-nav-title">
     <svg width="24" height="24" viewBox="0 0 40 40" fill="none"><path d="M20 2L4 10V20C4 30 20 38 20 38C20 38 36 30 36 20V10L20 2Z" fill="#4CAF50"/><path d="M20 6L8 12V20C8 28 20 34 20 34C20 34 32 28 32 20V12L20 6Z" fill="#66BB6A"/><path d="M17 20L19 22L24 17" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <span>Cleario POC — Clickable Prototype v2</span>
+    <span>Cleario POC — Clickable Prototype</span>
     <small>March 2026</small>
   </div>
   <div class="proto-nav-btns">
@@ -174,11 +171,6 @@ input:focus { border-color: var(--primary) !important; }
     <button onclick="goScreen(1)">2. Info & Payment</button>
     <button onclick="goScreen(2)">3. Confirmation</button>
   </div>
-</div>
-
-<!-- Changelog -->
-<div class="changelog">
-  <strong>v2 changes (RealDefense sync):</strong> Hybrid landing+cart page (2 steps instead of 3) · System-alert notification style with source attribution · 10 devices · Intro/renewal pricing · DM key injection (no manual activate) · Design consistency
 </div>
 
 <div class="screen-wrap">
@@ -202,6 +194,7 @@ input:focus { border-color: var(--primary) !important; }
         <div class="desktop-icon"><div class="desktop-icon-box">📁</div><span class="desktop-icon-label">Documents</span></div>
         <div class="desktop-icon"><div class="desktop-icon-box">🌐</div><span class="desktop-icon-label">Browser</span></div>
       </div>
+      <div class="sim-badge">Simulated Windows Desktop</div>
 
       <!-- Scenario switcher -->
       <div class="scenario-bar">
@@ -211,15 +204,13 @@ input:focus { border-color: var(--primary) !important; }
         <button class="scenario-btn" onclick="switchScenario('junk')">Junk Files</button>
       </div>
 
-      <div class="sim-badge">Simulated Windows Desktop</div>
-
-      <!-- System-alert style notification -->
+      <!-- Notification -->
       <div id="notif-main" class="notif-popup hidden">
         <div class="notif-source">
           <div class="notif-source-left">
-            <div class="notif-source-icon"><svg viewBox="0 0 40 40" fill="none"><path d="M20 2L4 10V20C4 30 20 38 20 38C20 38 36 30 36 20V10L20 2Z" fill="#fff"/></svg></div>
+            <div class="notif-source-icon"><svg viewBox="0 0 40 40" fill="none"><path d="M20 2L4 10V20C4 30 20 38 20 38C20 38 36 30 36 20V10L20 2Z" fill="#fff"></path></svg></div>
             <span class="notif-source-name">Adaware Privacy</span>
-            <span class="notif-source-time" id="countdown">15s</span>
+            <span class="notif-source-time" id="countdown">12s</span>
           </div>
           <button class="notif-close" onclick="dismissNotif()">×</button>
         </div>
@@ -261,7 +252,7 @@ input:focus { border-color: var(--primary) !important; }
       </div>
     </div>
 
-    <!-- ==================== SCREEN 1: HYBRID INFO & PAYMENT ==================== -->
+    <!-- ==================== SCREEN 1: INFO & PAYMENT (Combined) ==================== -->
     <div id="screen1" class="hidden" style="min-height:580px; display:flex; flex-direction:column; background:var(--bg-light);">
       <div class="header">
         <div class="header-logo">
@@ -277,88 +268,96 @@ input:focus { border-color: var(--primary) !important; }
         <div class="step-item"><div class="step-num active">1</div><span class="step-label active">Info & Payment</span></div>
         <div class="step-item"><div class="step-num inactive">2</div><span class="step-label">Download</span></div>
       </div>
-      <div class="two-col" style="flex:1;">
-        <!-- Left: Product + Your Info + Payment combined -->
-        <div style="width:440px;">
-          <div class="card" style="padding:24px;">
-            <!-- Product summary -->
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid var(--border-light);">
+      <div class="two-col" style="flex:1; align-items:flex-start;">
+        <!-- LEFT: Product + Your Info + Payment -->
+        <div style="width:440px; display:flex; flex-direction:column; gap:16px;">
+          <!-- Product header -->
+          <div class="card" style="padding:18px 20px;">
+            <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px; letter-spacing:0.3px;">🛡️ Recommended for you by <strong style="color:var(--text-light);">Adaware</strong></div>
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
               <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><path d="M20 2L4 10V20C4 30 20 38 20 38C20 38 36 30 36 20V10L20 2Z" fill="#4CAF50"/><path d="M20 6L8 12V20C8 28 20 34 20 34C20 34 32 28 32 20V12L20 6Z" fill="#66BB6A"/><path d="M17 20L19 22L24 17" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <div style="flex:1;">
-                <div style="font-size:16px; font-weight:700; color:var(--dark);">Cleario <span style="color:var(--primary)">PC Optimizer</span></div>
-                <div style="font-size:12px; color:var(--text-muted);">1 Year — Up to 10 Devices</div>
-              </div>
-              <div style="text-align:right;">
-                <span class="price-intro">INTRO PRICE</span>
-                <div style="font-size:18px; font-weight:700; color:var(--dark); margin-top:2px;">CAD$29.99<span style="font-size:11px; font-weight:400; color:var(--text-muted);">/yr</span></div>
-                <div class="price-strike">CAD$59.99/yr</div>
+              <div>
+                <div style="font-size:18px; font-weight:700; color:var(--dark);">Cleario <span style="color:var(--primary)">PC Optimizer</span></div>
+                <div style="font-size:12px; color:var(--text-muted);">1 Year — Up to 5 Devices</div>
               </div>
             </div>
-            <!-- Your Info -->
-            <div style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:10px;">Your Information</div>
-            <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:18px;">
+            <div style="font-size:13px; color:var(--text-light); line-height:1.6;">Cleario scans your system, removes junk files, and tunes performance settings — so your PC runs like it did on day one.</div>
+          </div>
+
+          <!-- Your Information -->
+          <div class="card" style="padding:20px;">
+            <div style="font-size:14px; font-weight:700; color:var(--dark); margin-bottom:14px;">Your Information</div>
+            <div style="display:flex; flex-direction:column; gap:12px;">
               <div style="display:flex; gap:10px;">
-                <input class="input-field" placeholder="First Name" style="font-size:13px; padding:10px 12px;">
-                <input class="input-field" placeholder="Last Name" style="font-size:13px; padding:10px 12px;">
+                <input class="input-field" placeholder="First Name" style="flex:1; font-size:13px; padding:11px 14px;">
+                <input class="input-field" placeholder="Last Name" style="flex:1; font-size:13px; padding:11px 14px;">
               </div>
-              <input class="input-field" placeholder="Email" type="email" style="font-size:13px; padding:10px 12px;">
+              <input class="input-field" placeholder="Email" type="email" style="font-size:13px; padding:11px 14px;">
             </div>
-            <!-- Payment -->
-            <div style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:10px;">Payment Method</div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="card" style="padding:20px;">
+            <div style="font-size:14px; font-weight:700; color:var(--dark); margin-bottom:14px;">Payment Method</div>
             <div class="pay-tabs">
               <button class="pay-tab active" id="tab-card" onclick="switchPay('card')">💳 Card</button>
               <button class="pay-tab" id="tab-paypal" onclick="switchPay('paypal')">🅿️ PayPal</button>
             </div>
             <div id="pay-card">
               <div class="card-brands"><span class="card-brand">VISA</span><span class="card-brand">MC</span><span class="card-brand">AMEX</span></div>
-              <div style="display:flex; flex-direction:column; gap:10px;">
-                <input class="input-field" placeholder="Card Number" style="font-size:13px; padding:10px 12px;">
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <input class="input-field" placeholder="Card Holder's Name" style="font-size:13px; padding:11px 14px;">
+                <input class="input-field" placeholder="Card Number" style="font-size:13px; padding:11px 14px;">
                 <div style="display:flex; gap:10px;">
-                  <input class="input-field" placeholder="MM / YYYY" style="width:120px; font-size:13px; padding:10px 12px;">
-                  <input class="input-field" placeholder="CVC" style="width:80px; font-size:13px; padding:10px 12px;">
-                  <input class="input-field" placeholder="Zip / Postal" style="flex:1; font-size:13px; padding:10px 12px;">
+                  <input class="input-field" placeholder="MM" style="width:60px; font-size:13px; padding:11px 10px; text-align:center;">
+                  <span style="align-self:center; color:var(--text-muted);">/</span>
+                  <input class="input-field" placeholder="YYYY" style="width:70px; font-size:13px; padding:11px 10px; text-align:center;">
+                  <input class="input-field" placeholder="Security Code" style="flex:1; font-size:13px; padding:11px 14px;">
                 </div>
+                <input class="input-field" placeholder="Zip / Postal Code" style="font-size:13px; padding:11px 14px;">
               </div>
             </div>
-            <div id="pay-paypal" class="hidden" style="text-align:center; padding:20px 0; color:var(--text-light); font-size:13px;">
+            <div id="pay-paypal" class="hidden" style="text-align:center; padding:24px 0; color:var(--text-light); font-size:13px;">
               <div style="font-size:32px; margin-bottom:8px;">🅿️</div>
               You will be redirected to PayPal to complete your purchase.
             </div>
-            <label style="display:flex; gap:8px; font-size:10px; color:var(--text-light); cursor:pointer; align-items:flex-start; margin-top:12px;">
+            <label style="display:flex; gap:8px; font-size:11px; color:var(--text-light); cursor:pointer; align-items:flex-start; margin-top:14px;">
               <input type="checkbox" style="margin-top:2px;">
               Keep me informed about product updates and special offers from Cleario.
             </label>
-            <div style="font-size:9px; color:var(--text-muted); line-height:1.6; margin-top:10px;">
-              By clicking "Complete Purchase" you agree to our <span style="color:var(--link); text-decoration:underline;">Terms Of Sale</span> and <span style="color:var(--link); text-decoration:underline;">Privacy Policy</span>. Your subscription will <strong>auto-renew at CAD$59.99/yr</strong> after the first year. Cancel anytime.
+            <div style="font-size:10px; color:var(--text-muted); line-height:1.6; margin-top:14px;">
+              By clicking "Complete Purchase" you agree to our <span style="color:var(--link); text-decoration:underline;">Terms Of Sale</span> and <span style="color:var(--link); text-decoration:underline;">Privacy Policy</span>. You also agree to <strong>automatic renewal</strong> at end of term. Cancel anytime.
             </div>
-            <button class="btn-primary" style="margin-top:14px;" onclick="goScreen(2)">COMPLETE PURCHASE — CAD$34.48</button>
-            <div style="display:flex; justify-content:center; gap:16px; margin-top:10px;">
-              <div class="trust-badge"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" fill="#4CAF50" opacity="0.2"/><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" stroke="#4CAF50" stroke-width="1"/><path d="M6 8L7.5 9.5L10.5 6.5" stroke="#4CAF50" stroke-width="1" stroke-linecap="round"/></svg>100% Satisfaction</div>
-              <div class="trust-badge"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" fill="#4CAF50" opacity="0.2"/><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" stroke="#4CAF50" stroke-width="1"/><path d="M6 8L7.5 9.5L10.5 6.5" stroke="#4CAF50" stroke-width="1" stroke-linecap="round"/></svg>Verified & Secured</div>
+            <button class="btn-primary" style="margin-top:16px;" onclick="goScreen(2)">COMPLETE PURCHASE — CAD$62.76</button>
+            <div style="display:flex; justify-content:center; gap:16px; margin-top:12px;">
+              <div class="trust-badge"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" fill="#4CAF50" opacity="0.2"/><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" stroke="#4CAF50" stroke-width="1"/><path d="M6 8L7.5 9.5L10.5 6.5" stroke="#4CAF50" stroke-width="1" stroke-linecap="round"/></svg>100% Satisfaction</div>
+              <div class="trust-badge"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" fill="#4CAF50" opacity="0.2"/><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" stroke="#4CAF50" stroke-width="1"/><path d="M6 8L7.5 9.5L10.5 6.5" stroke="#4CAF50" stroke-width="1" stroke-linecap="round"/></svg>Verified & Secured</div>
             </div>
           </div>
         </div>
-        <!-- Right: Benefits sidebar -->
-        <div style="width:240px;">
-          <div style="font-size:15px; font-weight:700; color:var(--dark); margin-bottom:14px;">What you get</div>
-          <div class="check-icon"><span class="check-dot">✓</span> Speed up your computer</div>
-          <div class="check-icon"><span class="check-dot">✓</span> Clean junk files & free space</div>
-          <div class="check-icon"><span class="check-dot">✓</span> Fix registry issues</div>
-          <div class="check-icon"><span class="check-dot">✓</span> Optimize memory usage</div>
-          <div class="check-icon"><span class="check-dot">✓</span> Improve startup time</div>
-          <div class="check-icon"><span class="check-dot">✓</span> Up to 10 devices</div>
-          <div style="margin-top:16px; padding:12px; background:var(--primary-light); border-radius:6px;">
-            <div style="font-size:12px; font-weight:700; color:var(--primary); margin-bottom:4px;">30-Day Money Back</div>
-            <div style="font-size:11px; color:var(--text-light);">Not satisfied? Get a full refund within 30 days, no questions asked.</div>
-          </div>
-          <div style="margin-top:12px; padding:12px; background:var(--bg-light); border:1px solid var(--border); border-radius:6px;">
-            <div style="font-size:11px; font-weight:700; color:var(--dark); margin-bottom:4px;">Order Summary</div>
-            <div class="order-row" style="margin-bottom:4px;"><span style="color:var(--text-light); font-size:11px;">Cleario 1-Year</span><span style="font-weight:600; font-size:11px;">CAD$29.99</span></div>
-            <div class="order-row" style="margin-bottom:4px;"><span style="color:var(--text-muted); font-size:10px;">GST+PST</span><span style="color:var(--text-muted); font-size:10px;">CAD$4.49</span></div>
-            <div class="order-row" style="font-weight:700; border-top:1px solid var(--border); padding-top:6px; margin-top:2px;">
-              <span style="color:var(--dark); font-size:12px;">Total</span><span style="color:var(--dark); font-size:12px;">CAD$34.48</span>
+
+        <!-- RIGHT: What you get + Order Summary -->
+        <div style="width:280px; display:flex; flex-direction:column; gap:16px;">
+          <div class="card" style="padding:20px;">
+            <div style="font-size:14px; font-weight:700; color:var(--dark); margin-bottom:14px;">What you get</div>
+            <div class="check-icon"><span class="check-dot">✓</span> Speed up your computer</div>
+            <div class="check-icon"><span class="check-dot">✓</span> Clean junk files & free space</div>
+            <div class="check-icon"><span class="check-dot">✓</span> Fix registry issues</div>
+            <div class="check-icon"><span class="check-dot">✓</span> Optimize memory usage</div>
+            <div class="check-icon"><span class="check-dot">✓</span> Improve startup time</div>
+            <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border-light);">
+              <div style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:4px;">30-Day Money Back</div>
+              <div style="font-size:11px; color:var(--text-light); line-height:1.5;">Not satisfied? Get a full refund within 30 days, no questions asked.</div>
             </div>
-            <div style="font-size:10px; color:var(--success); font-weight:600; margin-top:4px;">You save CAD$30.00 (50% off)</div>
+          </div>
+          <div class="card" style="padding:20px;">
+            <div style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:10px;">Order Summary</div>
+            <div class="order-row"><span style="color:var(--text-light)">Cleario 1-Year</span><span style="font-weight:600">CAD$54.59</span></div>
+            <div class="order-row"><span style="color:var(--text-muted)">GST+PST</span><span style="color:var(--text-muted)">CAD$8.17</span></div>
+            <div class="order-row" style="font-size:14px; font-weight:700; border-top:1px solid var(--border); padding-top:8px; margin-top:4px;">
+              <span style="color:var(--dark)">Total</span><span style="color:var(--dark)">CAD$62.76</span>
+            </div>
+            <div style="font-size:12px; color:var(--success); font-weight:600; margin-top:4px;">You save: CAD$62.77</div>
           </div>
         </div>
       </div>
@@ -386,53 +385,42 @@ input:focus { border-color: var(--primary) !important; }
         <div class="step-item"><div class="step-num active">2</div><span class="step-label active">Download</span></div>
       </div>
       <div style="flex:1; display:flex; justify-content:center; padding:24px 32px;">
-        <div style="width:560px;">
+        <div style="width:580px;">
           <div class="success-banner">
             <div class="success-circle">✓</div>
-            <div style="font-size:22px; font-weight:700; color:var(--dark); margin-bottom:4px;">Payment Successful!</div>
-            <div style="font-size:13px; color:var(--text-light);">Thank you for purchasing Cleario PC Optimizer. A confirmation email has been sent.</div>
+            <div style="font-size:24px; font-weight:700; color:var(--dark); margin-bottom:6px;">Payment Successful!</div>
+            <div style="font-size:14px; color:var(--text-light); line-height:1.5;">Thank you for purchasing Cleario PC Optimizer.<br>A confirmation email has been sent to your inbox.</div>
           </div>
 
           <div class="card" style="margin-bottom:16px;">
-            <div style="font-size:14px; font-weight:700; color:var(--dark); margin-bottom:16px;">Get Started</div>
+            <div style="font-size:16px; font-weight:700; color:var(--dark); margin-bottom:16px;">Get Started — It's Easy</div>
             <div class="steps-grid">
-              <div class="step-card"><div class="step-card-num">1</div><div class="step-card-title">Download</div><div class="step-card-desc">Download the Cleario installer</div></div>
-              <div class="step-card"><div class="step-card-num">2</div><div class="step-card-title">Install</div><div class="step-card-desc">Run the installer and follow prompts</div></div>
-              <div class="step-card" style="background:var(--primary-light); border:1px solid rgba(76,175,80,0.2);"><div class="step-card-num">✓</div><div class="step-card-title">Auto-Activated</div><div class="step-card-desc">License applied automatically</div></div>
+              <div class="step-card"><div class="step-card-num">1</div><div class="step-card-title">Download</div><div class="step-card-desc">Click the green button below to download Cleario</div></div>
+              <div class="step-card"><div class="step-card-num">2</div><div class="step-card-title">Install</div><div class="step-card-desc">Open the downloaded file and follow the on-screen instructions</div></div>
+              <div class="step-card"><div class="step-card-num">3</div><div class="step-card-title">Done!</div><div class="step-card-desc">Cleario activates automatically — no key needed</div></div>
             </div>
-            <button class="btn-primary" style="display:flex; align-items:center; justify-content:center; gap:8px;">⬇ DOWNLOAD CLEARIO</button>
-            <div class="dm-note">
-              <span class="check-dot" style="width:20px; height:20px; font-size:11px;">✓</span>
-              <span>Your license key is embedded in the download — Cleario will activate automatically after install.</span>
+            <button class="btn-primary" style="display:flex; align-items:center; justify-content:center; gap:8px; font-size:16px; padding:15px 0;">⬇ DOWNLOAD CLEARIO</button>
+            <div style="text-align:center; margin-top:8px; font-size:12px; color:var(--text-muted);">✓ Your license key is embedded in the download — Cleario will activate automatically after install.</div>
+          </div>
+
+          <!-- After Installing help -->
+          <div class="card" style="margin-bottom:16px; background:#FFFDE7; border:1px solid #FFF9C4;">
+            <div style="font-size:14px; font-weight:700; color:var(--dark); margin-bottom:12px;">After Installing — Need Help?</div>
+            <div style="display:flex; flex-direction:column; gap:12px; font-size:13px; color:var(--text-light); line-height:1.6;">
+              <div><strong style="color:var(--dark);">Can't find the installer?</strong><br>Check your <strong>Downloads</strong> folder, or look at the bottom of your browser window for the download bar.</div>
+              <div><strong style="color:var(--dark);">Windows shows a blue warning screen?</strong><br>This is normal. Click <strong>"More info"</strong> → then click <strong>"Run anyway"</strong>. Cleario is verified safe.</div>
+              <div><strong style="color:var(--dark);">Still need help?</strong><br>Email us at <span style="color:var(--link); text-decoration:underline;">support@cleario.com</span> — we're happy to walk you through it.</div>
             </div>
           </div>
 
-          <div class="card" style="margin-bottom:16px;">
-            <div style="font-size:14px; font-weight:700; color:var(--dark); margin-bottom:12px;">Your License Key</div>
-            <div class="license-box">
-              <div class="license-key">CLR4X-9BMWK-JT7NF-2HPQR</div>
-              <button class="copy-btn" id="copyBtn" onclick="copyKey()">Copy Key</button>
-            </div>
-            <div style="font-size:11px; color:var(--text-muted); margin-top:8px;">Saved for your records. Also sent to your email. You won't need to enter this manually.</div>
-          </div>
-
-          <div class="card" style="font-size:12px; margin-bottom:16px;">
-            <div style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:10px;">After Installing</div>
-            <div style="font-size:12px; color:var(--text-light); line-height:1.7;">
-              <strong>Can't find the installer?</strong> Check your Downloads folder or browser download bar.<br>
-              <strong>Windows SmartScreen?</strong> Click "More info" → "Run anyway" — Cleario is verified safe.<br>
-              <strong>Need help?</strong> Chat with our support bot or email support@cleario.com.
-            </div>
-          </div>
-
-          <div class="card" style="font-size:12px;">
-            <div style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:10px;">Order Summary</div>
-            <div class="order-row"><span style="color:var(--text-light)">Cleario PC Optimizer — 1 Year (10 Devices)</span><span style="font-weight:600">CAD$29.99</span></div>
-            <div class="order-row"><span style="color:var(--text-muted)">GST+PST</span><span style="color:var(--text-muted)">CAD$4.49</span></div>
+          <div class="card" style="font-size:13px;">
+            <div style="font-size:14px; font-weight:700; color:var(--dark); margin-bottom:10px;">Order Summary</div>
+            <div class="order-row"><span style="color:var(--text-light)">Cleario PC Optimizer — 1 Year (5 Devices)</span><span style="font-weight:600">CAD$54.59</span></div>
+            <div class="order-row"><span style="color:var(--text-muted)">GST+PST</span><span style="color:var(--text-muted)">CAD$8.17</span></div>
             <div class="order-row" style="font-weight:700; border-top:1px solid var(--border); padding-top:8px; margin-top:4px;">
-              <span style="color:var(--dark)">Total Charged</span><span style="color:var(--dark)">CAD$34.48</span>
+              <span style="color:var(--dark)">Total Charged</span><span style="color:var(--dark)">CAD$62.76</span>
             </div>
-            <div class="renewal-note">Your subscription will auto-renew at CAD$59.99/yr after the first year. Cancel anytime. 30-day money-back guarantee.</div>
+            <div class="renewal-note">Your subscription will auto-renew in 1 year. Cancel anytime. 30-day money-back guarantee.</div>
           </div>
         </div>
       </div>
@@ -455,8 +443,7 @@ input:focus { border-color: var(--primary) !important; }
 <script>
 let currentScreen = 0;
 let countdownTimer = null;
-let countdownVal = 15;
-const totalScreens = 3;
+let countdownVal = 12;
 
 // Notification content variants
 const scenarios = {
@@ -499,25 +486,29 @@ function switchScenario(key) {
 
 function goScreen(n) {
   currentScreen = n;
-  for (let i = 0; i < totalScreens; i++) {
+  for (let i = 0; i < 3; i++) {
     document.getElementById('screen' + i).classList.toggle('hidden', i !== n);
     if (i !== 0) document.getElementById('screen' + i).style.display = i === n ? 'flex' : 'none';
   }
+  // Nav buttons
   document.querySelectorAll('.proto-nav-btns button').forEach((btn, i) => btn.classList.toggle('active', i === n));
   document.querySelectorAll('.flow-pill').forEach((pill, i) => pill.classList.toggle('active', i === n));
   document.getElementById('prevBtn').disabled = n === 0;
-  document.getElementById('nextBtn').disabled = n === totalScreens - 1;
-  document.getElementById('nextBtn').style.opacity = n === totalScreens - 1 ? '0.4' : '1';
+  document.getElementById('nextBtn').disabled = n === 2;
+  document.getElementById('nextBtn').style.opacity = n === 2 ? '0.4' : '1';
+  
+  // Auto-show notification on screen 0
   if (n === 0) startNotif();
 }
 
-function nextScreen() { if (currentScreen < totalScreens - 1) goScreen(currentScreen + 1); }
+function nextScreen() { if (currentScreen < 2) goScreen(currentScreen + 1); }
 function prevScreen() { if (currentScreen > 0) goScreen(currentScreen - 1); }
 
+// Notification logic
 function startNotif() {
   clearInterval(countdownTimer);
   hideAllNotif();
-  countdownVal = 15;
+  countdownVal = 12;
   setTimeout(() => {
     document.getElementById('notif-main').classList.remove('hidden');
     countdownTimer = setInterval(() => {
@@ -548,6 +539,7 @@ function replayNotif() {
   startNotif();
 }
 
+// Payment tabs
 function switchPay(method) {
   document.getElementById('pay-card').classList.toggle('hidden', method !== 'card');
   document.getElementById('pay-paypal').classList.toggle('hidden', method !== 'paypal');
@@ -555,6 +547,7 @@ function switchPay(method) {
   document.getElementById('tab-paypal').classList.toggle('active', method === 'paypal');
 }
 
+// Copy key
 function copyKey() {
   const btn = document.getElementById('copyBtn');
   if (navigator.clipboard) navigator.clipboard.writeText('CLR4X-9BMWK-JT7NF-2HPQR');
@@ -563,6 +556,7 @@ function copyKey() {
   setTimeout(() => { btn.textContent = 'Copy Key'; btn.classList.remove('copied'); }, 2000);
 }
 
+// Init
 goScreen(0);
 </script>
 </body>
