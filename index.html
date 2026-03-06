@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cleario POC — Clickable Prototype v3</title>
+<title>Cleario POC — Clickable Prototype v5</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #F0F2F5; color: #333; }
@@ -32,6 +32,10 @@ input:focus { border-color: var(--primary) !important; }
 /* Changelog */
 .changelog { background: #FFF8E1; border-bottom: 1px solid #FFE082; padding: 8px 24px; font-size: 11px; color: #795548; }
 .changelog strong { color: #E65100; }
+
+/* Placeholder marker */
+.placeholder-block { border: 2px dashed #FFB74D; position: relative; }
+.placeholder-tag { position: absolute; top: -10px; right: 10px; background: #FF9800; color: #fff; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.5px; text-transform: uppercase; }
 
 /* Flow indicator */
 .flow-bar { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 16px; font-size: 12px; }
@@ -113,6 +117,34 @@ input:focus { border-color: var(--primary) !important; }
 .notif-action-link.remind { color: #6BA3D6; text-decoration: underline; }
 .notif-action-link.suppress { color: #777; text-decoration: underline; }
 
+/* Variant B: Adaware blue/white notification */
+.notif-popup.variant-b { background: #fff; color: #333; box-shadow: 0 8px 32px rgba(0,0,0,0.15); border: 1px solid #E0E0E0; }
+.notif-popup.variant-b .notif-source { border-bottom: 1px solid #E8E8E8; }
+.notif-popup.variant-b .notif-source-icon { background: #1565C0; }
+.notif-popup.variant-b .notif-source-name { color: #555; }
+.notif-popup.variant-b .notif-close { color: #bbb; }
+.notif-popup.variant-b .notif-close:hover { color: #666; }
+.notif-popup.variant-b .notif-title { color: #1B2A4A; }
+.notif-popup.variant-b .notif-subtitle { color: #666; }
+.notif-popup.variant-b .notif-stat { background: #F5F7FA; }
+.notif-popup.variant-b .notif-stat-label { color: #777; }
+.notif-popup.variant-b .notif-cta { background: #1565C0; }
+.notif-popup.variant-b .notif-cta:hover { background: #0D47A1; }
+.notif-popup.variant-b .notif-action-link.remind { color: #1565C0; }
+.notif-popup.variant-b .notif-action-link.suppress { color: #999; }
+
+.confirm-popup.variant-b { background: #fff; color: #333; box-shadow: 0 8px 32px rgba(0,0,0,0.15); border: 1px solid #E0E0E0; }
+.confirm-popup.variant-b .title { color: #1B2A4A; }
+.confirm-popup.variant-b .desc { color: #666; }
+.confirm-popup.variant-b button { background: #F5F7FA; border: 1px solid #DDD; color: #333; }
+
+/* A/B toggle bar */
+.ab-bar { position: absolute; top: 52px; left: 50%; transform: translateX(-50%); display: flex; gap: 2px; background: rgba(0,0,0,0.5); padding: 3px; border-radius: 6px; z-index: 10; }
+.ab-btn { padding: 4px 12px; border-radius: 4px; font-size: 10px; font-weight: 600; border: none; background: transparent; color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.2s; }
+.ab-btn.active { background: #fff; color: #333; }
+.ab-btn:hover:not(.active) { color: rgba(255,255,255,0.8); }
+.ab-label { font-size: 9px; color: rgba(255,255,255,0.35); padding: 4px 6px; }
+
 .confirm-popup { position: absolute; bottom: 52px; right: 16px; width: 340px; background: #2b2b2b; border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); padding: 24px; text-align: center; color: #fff; }
 .confirm-popup .icon { font-size: 28px; margin-bottom: 8px; }
 .confirm-popup .title { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 6px; }
@@ -167,25 +199,25 @@ input:focus { border-color: var(--primary) !important; }
 <div class="proto-nav">
   <div class="proto-nav-title">
     <svg width="24" height="24" viewBox="0 0 40 40" fill="none"><path d="M20 2L4 10V20C4 30 20 38 20 38C20 38 36 30 36 20V10L20 2Z" fill="#4CAF50"/><path d="M20 6L8 12V20C8 28 20 34 20 34C20 34 32 28 32 20V12L20 6Z" fill="#66BB6A"/><path d="M17 20L19 22L24 17" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <span>Cleario POC — Clickable Prototype v3</span>
+    <span>Cleario POC — Clickable Prototype v5</span>
     <small>March 2026</small>
   </div>
   <div class="proto-nav-btns">
     <button class="active" onclick="goScreen(0)">1. Notification</button>
-    <button onclick="goScreen(1)">2. Info & Payment</button>
+    <button onclick="goScreen(1)">2. Payment</button>
     <button onclick="goScreen(2)">3. Confirmation</button>
   </div>
 </div>
 
 <div class="changelog">
-  <strong>v3 changes (Collab sync):</strong> Combined info+payment into single page (2 steps instead of 3) · Dark system-alert notification with Adaware attribution &amp; scenario switcher · Reduced green to CTA buttons + confirmation check only · "Recommended by Adaware" on checkout · Concise product summary · License auto-activates (no manual key entry) · "After Installing" help section for 60+ usability · Intro/renewal pricing &amp; email-not-required parked
+  <strong>v5 changes:</strong> A/B test #1: Design — Dark vs Adaware blue/white · A/B test #2: Headlines — Neutral vs Urgent · Swapped "Registry Issues" → "System Errors" · Added ! to stat values · FAQ section added (placeholder copy) · Pricing placeholders · Removed auto-dismiss countdown
 </div>
 
 <div class="screen-wrap">
   <!-- Flow bar -->
   <div class="flow-bar">
     <span class="flow-pill active" id="fp0">Notification</span><span class="flow-arrow">→</span>
-    <span class="flow-pill" id="fp1">Info & Payment</span><span class="flow-arrow">→</span>
+    <span class="flow-pill" id="fp1">Payment</span><span class="flow-arrow">→</span>
     <span class="flow-pill" id="fp2">Confirmation</span>
   </div>
 
@@ -208,8 +240,22 @@ input:focus { border-color: var(--primary) !important; }
       <div class="scenario-bar">
         <button class="scenario-btn active" onclick="switchScenario('multi')">Multi-Issue</button>
         <button class="scenario-btn" onclick="switchScenario('memory')">Memory</button>
-        <button class="scenario-btn" onclick="switchScenario('registry')">Registry</button>
+        <button class="scenario-btn" onclick="switchScenario('registry')">System Errors</button>
         <button class="scenario-btn" onclick="switchScenario('junk')">Junk Files</button>
+      </div>
+
+      <!-- A/B Design toggle -->
+      <div class="ab-bar">
+        <span class="ab-label">DESIGN:</span>
+        <button class="ab-btn active" onclick="switchVariant('a')">A: Dark</button>
+        <button class="ab-btn" onclick="switchVariant('b')">B: Adaware Blue</button>
+      </div>
+
+      <!-- Headline A/B toggle -->
+      <div class="ab-bar" style="top:82px;">
+        <span class="ab-label">HEADLINE:</span>
+        <button class="hl-btn ab-btn active" onclick="switchHeadline('a')">A: Neutral</button>
+        <button class="hl-btn ab-btn" onclick="switchHeadline('b')">B: Urgent</button>
       </div>
 
       <!-- Notification -->
@@ -218,7 +264,6 @@ input:focus { border-color: var(--primary) !important; }
           <div class="notif-source-left">
             <div class="notif-source-icon"><svg viewBox="0 0 40 40" fill="none"><path d="M20 2L4 10V20C4 30 20 38 20 38C20 38 36 30 36 20V10L20 2Z" fill="#fff"></path></svg></div>
             <span class="notif-source-name">Adaware Privacy</span>
-            <span class="notif-source-time" id="countdown">12s</span>
           </div>
           <button class="notif-close" onclick="dismissNotif()">×</button>
         </div>
@@ -226,9 +271,9 @@ input:focus { border-color: var(--primary) !important; }
           <div class="notif-title" id="notif-headline">Your PC needs attention</div>
           <div class="notif-subtitle" id="notif-desc">We found <strong style="color:var(--accent)">3 performance issues</strong> on your computer:</div>
           <div class="notif-stats" id="notif-stats">
-            <div class="notif-stat"><span class="notif-stat-label">Available Memory</span><span class="notif-stat-value">18% — Low</span></div>
-            <div class="notif-stat"><span class="notif-stat-label">Registry Issues</span><span class="notif-stat-value">47 issues</span></div>
-            <div class="notif-stat"><span class="notif-stat-label">Junk Files</span><span class="notif-stat-value">1.8 GB</span></div>
+            <div class="notif-stat"><span class="notif-stat-label">Available Memory</span><span class="notif-stat-value">18% — Low!</span></div>
+            <div class="notif-stat"><span class="notif-stat-label">System Errors</span><span class="notif-stat-value">47 issues!</span></div>
+            <div class="notif-stat"><span class="notif-stat-label">Junk Files</span><span class="notif-stat-value">1.8 GB!</span></div>
           </div>
           <button class="notif-cta" onclick="goScreen(1)">Resolve Now</button>
           <div class="notif-actions">
@@ -273,7 +318,7 @@ input:focus { border-color: var(--primary) !important; }
         </div>
       </div>
       <div class="step-indicator">
-        <div class="step-item"><div class="step-num active">1</div><span class="step-label active">Info & Payment</span></div>
+        <div class="step-item"><div class="step-num active">1</div><span class="step-label active">Payment</span></div>
         <div class="step-item"><div class="step-num inactive">2</div><span class="step-label">Download</span></div>
       </div>
       <div class="two-col" style="flex:1; align-items:flex-start;">
@@ -292,21 +337,9 @@ input:focus { border-color: var(--primary) !important; }
             <div style="font-size:13px; color:var(--text-light); line-height:1.6;">Cleario scans your system, removes junk files, and tunes performance settings — so your PC runs like it did on day one.</div>
           </div>
 
-          <!-- Your Information -->
-          <div class="card" style="padding:20px;">
-            <div style="font-size:14px; font-weight:700; color:var(--dark); margin-bottom:14px;">Your Information</div>
-            <div style="display:flex; flex-direction:column; gap:12px;">
-              <div style="display:flex; gap:10px;">
-                <input class="input-field" placeholder="First Name" style="flex:1; font-size:13px; padding:11px 14px;">
-                <input class="input-field" placeholder="Last Name" style="flex:1; font-size:13px; padding:11px 14px;">
-              </div>
-              <input class="input-field" placeholder="Email" type="email" style="font-size:13px; padding:11px 14px;">
-            </div>
-          </div>
-
           <!-- Payment Method -->
           <div class="card" style="padding:20px;">
-            <div style="font-size:14px; font-weight:700; color:var(--dark); margin-bottom:14px;">Payment Method</div>
+            <div style="font-size:14px; font-weight:700; color:var(--dark); margin-bottom:14px;">Payment method</div>
             <div class="pay-tabs">
               <button class="pay-tab active" id="tab-card" onclick="switchPay('card')">💳 Card</button>
               <button class="pay-tab" id="tab-paypal" onclick="switchPay('paypal')">🅿️ PayPal</button>
@@ -334,9 +367,9 @@ input:focus { border-color: var(--primary) !important; }
               Keep me informed about product updates and special offers from Cleario.
             </label>
             <div style="font-size:10px; color:var(--text-muted); line-height:1.6; margin-top:14px;">
-              By clicking "Complete Purchase" you agree to our <span style="color:var(--link); text-decoration:underline;">Terms Of Sale</span> and <span style="color:var(--link); text-decoration:underline;">Privacy Policy</span>. You also agree to <strong>automatic renewal</strong> at end of term. Cancel anytime.
+              By clicking "Process Payment" you agree to our <span style="color:var(--link); text-decoration:underline;">Terms Of Sale</span> and <span style="color:var(--link); text-decoration:underline;">Privacy Policy</span>. You also agree to <strong>automatic renewal</strong> at end of term. Cancel anytime.
             </div>
-            <button class="btn-primary" style="margin-top:16px;" onclick="goScreen(2)">COMPLETE PURCHASE — CAD$62.76</button>
+            <button class="btn-primary" style="margin-top:16px;" onclick="goScreen(2)">PROCESS PAYMENT</button>
             <div style="display:flex; justify-content:center; gap:16px; margin-top:12px;">
               <div class="trust-badge"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" fill="#4CAF50" opacity="0.2"/><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" stroke="#4CAF50" stroke-width="1"/><path d="M6 8L7.5 9.5L10.5 6.5" stroke="#4CAF50" stroke-width="1" stroke-linecap="round"/></svg>100% Satisfaction</div>
               <div class="trust-badge"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" fill="#4CAF50" opacity="0.2"/><path d="M8 1L2 4V8C2 12 8 15 8 15C8 15 14 12 14 8V4L8 1Z" stroke="#4CAF50" stroke-width="1"/><path d="M6 8L7.5 9.5L10.5 6.5" stroke="#4CAF50" stroke-width="1" stroke-linecap="round"/></svg>Verified & Secured</div>
@@ -346,26 +379,36 @@ input:focus { border-color: var(--primary) !important; }
 
         <!-- RIGHT: What you get + Order Summary -->
         <div style="width:280px; display:flex; flex-direction:column; gap:16px;">
-          <div class="card" style="padding:20px;">
+          <div class="card placeholder-block" style="padding:20px;">
+            <span class="placeholder-tag">Placeholder Copy</span>
             <div style="font-size:14px; font-weight:700; color:var(--dark); margin-bottom:14px;">What you get</div>
             <div class="check-icon"><span class="check-dot">✓</span> Speed up your computer</div>
             <div class="check-icon"><span class="check-dot">✓</span> Clean junk files & free space</div>
-            <div class="check-icon"><span class="check-dot">✓</span> Fix registry issues</div>
+            <div class="check-icon"><span class="check-dot">✓</span> Fix system errors</div>
             <div class="check-icon"><span class="check-dot">✓</span> Optimize memory usage</div>
             <div class="check-icon"><span class="check-dot">✓</span> Improve startup time</div>
+            <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border-light);">
+              <div style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:4px;">Frequently Asked Questions</div>
+              <div style="font-size:11px; color:var(--text-light); line-height:1.7;">
+                <div style="margin-bottom:6px;"><strong>What is Cleario?</strong><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                <div style="margin-bottom:6px;"><strong>How does it work?</strong><br>Sed do eiusmod tempor incididunt ut labore et dolore magna.</div>
+                <div><strong>Is it safe?</strong><br>Ut enim ad minim veniam, quis nostrud exercitation.</div>
+              </div>
+            </div>
             <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border-light);">
               <div style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:4px;">30-Day Money Back</div>
               <div style="font-size:11px; color:var(--text-light); line-height:1.5;">Not satisfied? Get a full refund within 30 days, no questions asked.</div>
             </div>
           </div>
-          <div class="card" style="padding:20px;">
+          <div class="card placeholder-block" style="padding:20px;">
+            <span class="placeholder-tag">Placeholder Pricing</span>
             <div style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:10px;">Order Summary</div>
-            <div class="order-row"><span style="color:var(--text-light)">Cleario 1-Year</span><span style="font-weight:600">CAD$54.59</span></div>
-            <div class="order-row"><span style="color:var(--text-muted)">GST+PST</span><span style="color:var(--text-muted)">CAD$8.17</span></div>
+            <div class="order-row"><span style="color:var(--text-light)">Cleario 1-Year</span><span style="font-weight:600">CAD$XX.XX</span></div>
+            <div class="order-row"><span style="color:var(--text-muted)">GST+PST</span><span style="color:var(--text-muted)">CAD$X.XX</span></div>
             <div class="order-row" style="font-size:14px; font-weight:700; border-top:1px solid var(--border); padding-top:8px; margin-top:4px;">
-              <span style="color:var(--dark)">Total</span><span style="color:var(--dark)">CAD$62.76</span>
+              <span style="color:var(--dark)">Total</span><span style="color:var(--dark)">CAD$XX.XX</span>
             </div>
-            <div style="font-size:12px; color:var(--success); font-weight:600; margin-top:4px;">You save: CAD$62.77</div>
+            <div style="font-size:12px; color:var(--success); font-weight:600; margin-top:4px;">You save: CAD$XX.XX</div>
           </div>
         </div>
       </div>
@@ -389,7 +432,7 @@ input:focus { border-color: var(--primary) !important; }
         </div>
       </div>
       <div class="step-indicator">
-        <div class="step-item"><div class="step-num done">✓</div><span class="step-label">Info & Payment</span></div>
+        <div class="step-item"><div class="step-num done">✓</div><span class="step-label">Payment</span></div>
         <div class="step-item"><div class="step-num active">2</div><span class="step-label active">Download</span></div>
       </div>
       <div style="flex:1; display:flex; justify-content:center; padding:24px 32px;">
@@ -397,7 +440,7 @@ input:focus { border-color: var(--primary) !important; }
           <div class="success-banner">
             <div class="success-circle">✓</div>
             <div style="font-size:24px; font-weight:700; color:var(--dark); margin-bottom:6px;">Payment Successful!</div>
-            <div style="font-size:14px; color:var(--text-light); line-height:1.5;">Thank you for purchasing Cleario PC Optimizer.<br>A confirmation email has been sent to your inbox.</div>
+            <div style="font-size:14px; color:var(--text-light); line-height:1.5;">Thank you, <strong style="color:var(--dark);">John Doe</strong>, for purchasing Cleario PC Optimizer.<br>A confirmation email has been sent to your inbox.</div>
           </div>
 
           <div class="card" style="margin-bottom:16px;">
@@ -450,46 +493,96 @@ input:focus { border-color: var(--primary) !important; }
 
 <script>
 let currentScreen = 0;
-let countdownTimer = null;
-let countdownVal = 12;
+let currentVariant = 'a';
+let currentHeadline = 'a';
+
+// Headline variants for A/B testing
+const headlines = {
+  a: { // Current
+    multi: 'Your PC needs attention',
+    memory: 'Speed up your PC',
+    registry: 'Improve your PC performance',
+    junk: 'Free up space on your PC'
+  },
+  b: { // Alternate — more urgent/direct
+    multi: 'Your PC is running slow!',
+    memory: 'Low memory is slowing you down!',
+    registry: 'System errors detected!',
+    junk: 'Your PC is running out of space!'
+  }
+};
 
 // Notification content variants
 const scenarios = {
   multi: {
-    headline: 'Your PC needs attention',
     desc: 'We found <strong style="color:#FF6B35">3 performance issues</strong> on your computer:',
     stats: [
-      { label: 'Available Memory', value: '18% — Low' },
-      { label: 'Registry Issues', value: '47 issues' },
-      { label: 'Junk Files', value: '1.8 GB' }
+      { label: 'Available Memory', value: '18% — Low!' },
+      { label: 'System Errors', value: '47 issues!' },
+      { label: 'Junk Files', value: '1.8 GB!' }
     ]
   },
   memory: {
-    headline: 'Speed up your PC',
     desc: 'Your available memory is running low, which could be slowing down your computer.',
-    stats: [{ label: 'Available Memory', value: '18% — Low' }]
+    stats: [{ label: 'Available Memory', value: '18% — Low!' }]
   },
   registry: {
-    headline: 'Improve your PC performance',
-    desc: 'Registry issues detected that may be affecting your system speed.',
-    stats: [{ label: 'Registry Issues', value: '47 issues' }]
+    desc: 'System errors detected that may be affecting your speed and stability.',
+    stats: [{ label: 'System Errors', value: '47 issues!' }]
   },
   junk: {
-    headline: 'Free up space on your PC',
     desc: 'Junk files are cluttering your system and may impact performance.',
-    stats: [{ label: 'Junk Files', value: '1.8 GB' }]
+    stats: [{ label: 'Junk Files', value: '1.8 GB!' }]
   }
 };
 
+let currentScenarioKey = 'multi';
+
 function switchScenario(key) {
+  currentScenarioKey = key;
   document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
   event.target.classList.add('active');
-  const s = scenarios[key];
-  document.getElementById('notif-headline').textContent = s.headline;
+  renderNotifContent();
+}
+
+function renderNotifContent() {
+  const s = scenarios[currentScenarioKey];
+  const h = headlines[currentHeadline][currentScenarioKey];
+  document.getElementById('notif-headline').textContent = h;
   document.getElementById('notif-desc').innerHTML = s.desc;
   document.getElementById('notif-stats').innerHTML = s.stats.map(st =>
     `<div class="notif-stat"><span class="notif-stat-label">${st.label}</span><span class="notif-stat-value">${st.value}</span></div>`
   ).join('');
+}
+
+// Headline A/B switching
+function switchHeadline(v) {
+  currentHeadline = v;
+  document.querySelectorAll('.hl-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderNotifContent();
+}
+
+// A/B variant switching
+function switchVariant(v) {
+  currentVariant = v;
+  document.querySelectorAll('.ab-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  const popup = document.getElementById('notif-main');
+  const remind = document.getElementById('notif-remind');
+  const suppress = document.getElementById('notif-suppress');
+  if (v === 'b') {
+    popup.classList.add('variant-b');
+    remind.classList.add('variant-b');
+    suppress.classList.add('variant-b');
+  } else {
+    popup.classList.remove('variant-b');
+    remind.classList.remove('variant-b');
+    suppress.classList.remove('variant-b');
+  }
+  // Re-show notification
+  hideAllNotif();
+  startNotif();
 }
 
 function goScreen(n) {
@@ -512,24 +605,16 @@ function goScreen(n) {
 function nextScreen() { if (currentScreen < 2) goScreen(currentScreen + 1); }
 function prevScreen() { if (currentScreen > 0) goScreen(currentScreen - 1); }
 
-// Notification logic
+// Notification logic — no auto-dismiss
 function startNotif() {
-  clearInterval(countdownTimer);
   hideAllNotif();
-  countdownVal = 12;
   setTimeout(() => {
     document.getElementById('notif-main').classList.remove('hidden');
-    countdownTimer = setInterval(() => {
-      countdownVal--;
-      document.getElementById('countdown').textContent = countdownVal + 's';
-      if (countdownVal <= 0) { dismissNotif(); }
-    }, 1000);
   }, 800);
 }
 
 function hideAllNotif() {
   ['notif-main', 'notif-remind', 'notif-suppress', 'notif-dismissed'].forEach(id => document.getElementById(id).classList.add('hidden'));
-  clearInterval(countdownTimer);
 }
 
 function dismissNotif() {
