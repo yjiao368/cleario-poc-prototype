@@ -211,7 +211,7 @@ input:focus { border-color: var(--primary) !important; }
 </div>
 
 <div class="changelog">
-  <strong>v5 changes:</strong> A/B test #1: Design — Dark vs Adaware blue/white · A/B test #2: Headlines — Neutral vs Urgent · Swapped "Registry Issues" → "System Errors" · Added ! to notification stat values · Order cart: checkmarks → exclamation points (partner rec: +9% conv.) · FAQ section added (placeholder copy) · Pricing placeholders · Removed auto-dismiss countdown
+  <strong>v5 changes:</strong> A/B test #1: Design — Dark vs Adaware blue/white · A/B test #2: Headlines — Neutral vs Urgent · Swapped "Registry Issues" → "System Errors" · Added ! to notification stat values · Order cart: ✓ → ! icons (partner rec: +9% conv.) · Monthly pricing display, billed yearly (partner rec: +32% conv.) · FAQ section added (placeholder copy) · Pricing placeholders · Removed auto-dismiss countdown
 </div>
 
 <div class="screen-wrap">
@@ -326,15 +326,21 @@ input:focus { border-color: var(--primary) !important; }
         <!-- LEFT: Product + Your Info + Payment -->
         <div style="width:440px; display:flex; flex-direction:column; gap:16px;">
           <!-- Product header -->
-          <div class="card" style="padding:18px 20px;">
+          <div class="card placeholder-block" style="padding:18px 20px;">
+            <span class="placeholder-tag">Placeholder Pricing</span>
             <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px; letter-spacing:0.3px;">🛡️ Recommended for you by <strong style="color:var(--text-light);">Adaware</strong></div>
             <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
               <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><path d="M20 2L4 10V20C4 30 20 38 20 38C20 38 36 30 36 20V10L20 2Z" fill="#4CAF50"/><path d="M20 6L8 12V20C8 28 20 34 20 34C20 34 32 28 32 20V12L20 6Z" fill="#66BB6A"/><path d="M17 20L19 22L24 17" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <div>
-                <div style="font-size:18px; font-weight:700; color:var(--dark);">Cleario <span style="color:var(--primary)">PC Optimizer</span></div>
-                <div style="font-size:12px; color:var(--text-muted);">1 Year — Up to 5 Devices</div>
+                <div style="font-size:18px; font-weight:700; color:var(--dark);">Cleario</div>
+                <div style="font-size:12px; color:var(--text-muted);">1 Year — Up to 10 Devices</div>
               </div>
             </div>
+            <div style="display:flex; align-items:baseline; gap:6px; margin-bottom:4px;">
+              <span style="font-size:26px; font-weight:800; color:var(--dark);">CAD$X.XX</span>
+              <span style="font-size:13px; color:var(--text-muted);">/mo</span>
+            </div>
+            <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Billed as CAD$XX.XX/yr</div>
             <div style="font-size:13px; color:var(--text-light); line-height:1.6;">Cleario scans your system, removes junk files, and tunes performance settings — so your PC runs like it did on day one.</div>
           </div>
 
@@ -368,7 +374,7 @@ input:focus { border-color: var(--primary) !important; }
               Keep me informed about product updates and special offers from Cleario.
             </label>
             <div style="font-size:10px; color:var(--text-muted); line-height:1.6; margin-top:14px;">
-              By clicking "Process Payment" you agree to our <span style="color:var(--link); text-decoration:underline;">Terms Of Sale</span> and <span style="color:var(--link); text-decoration:underline;">Privacy Policy</span>. You also agree to <strong>automatic renewal</strong> at end of term. Cancel anytime.
+              By clicking "Process Payment" you agree to our <span style="color:var(--link); text-decoration:underline;">Terms Of Sale</span> and <span style="color:var(--link); text-decoration:underline;">Privacy Policy</span>. Your subscription is <strong>billed annually</strong> and will <strong>auto-renew</strong> at end of term. Cancel anytime.
             </div>
             <button class="btn-primary" style="margin-top:16px;" onclick="goScreen(2)">PROCESS PAYMENT</button>
             <div style="display:flex; justify-content:center; gap:16px; margin-top:12px;">
@@ -404,12 +410,13 @@ input:focus { border-color: var(--primary) !important; }
           <div class="card placeholder-block" style="padding:20px;">
             <span class="placeholder-tag">Placeholder Pricing</span>
             <div style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:10px;">Order Summary</div>
-            <div class="order-row"><span style="color:var(--text-light)">Cleario 1-Year</span><span style="font-weight:600">CAD$XX.XX</span></div>
+            <div class="order-row"><span style="color:var(--text-light)">Cleario</span><span style="font-weight:600">CAD$X.XX/mo</span></div>
+            <div style="font-size:10px; color:var(--text-muted); margin-bottom:6px;">Billed annually at CAD$XX.XX/yr</div>
             <div class="order-row"><span style="color:var(--text-muted)">GST+PST</span><span style="color:var(--text-muted)">CAD$X.XX</span></div>
             <div class="order-row" style="font-size:14px; font-weight:700; border-top:1px solid var(--border); padding-top:8px; margin-top:4px;">
-              <span style="color:var(--dark)">Total</span><span style="color:var(--dark)">CAD$XX.XX</span>
+              <span style="color:var(--dark)">Total today</span><span style="color:var(--dark)">CAD$XX.XX</span>
             </div>
-            <div style="font-size:12px; color:var(--success); font-weight:600; margin-top:4px;">You save: CAD$XX.XX</div>
+            <div style="font-size:12px; color:var(--success); font-weight:600; margin-top:4px;">That's just CAD$X.XX/mo!</div>
           </div>
         </div>
       </div>
@@ -441,7 +448,7 @@ input:focus { border-color: var(--primary) !important; }
           <div class="success-banner">
             <div class="success-circle">✓</div>
             <div style="font-size:24px; font-weight:700; color:var(--dark); margin-bottom:6px;">Payment Successful!</div>
-            <div style="font-size:14px; color:var(--text-light); line-height:1.5;">Thank you, <strong style="color:var(--dark);">John Doe</strong>, for purchasing Cleario PC Optimizer.<br>A confirmation email has been sent to your inbox.</div>
+            <div style="font-size:14px; color:var(--text-light); line-height:1.5;">Thank you, <strong style="color:var(--dark);">John Doe</strong>, for purchasing Cleario.<br>A confirmation email has been sent to your inbox.</div>
           </div>
 
           <div class="card" style="margin-bottom:16px;">
@@ -467,7 +474,7 @@ input:focus { border-color: var(--primary) !important; }
 
           <div class="card" style="font-size:13px;">
             <div style="font-size:14px; font-weight:700; color:var(--dark); margin-bottom:10px;">Order Summary</div>
-            <div class="order-row"><span style="color:var(--text-light)">Cleario PC Optimizer — 1 Year (5 Devices)</span><span style="font-weight:600">CAD$54.59</span></div>
+            <div class="order-row"><span style="color:var(--text-light)">Cleario — 1 Year (10 Devices)</span><span style="font-weight:600">CAD$54.59</span></div>
             <div class="order-row"><span style="color:var(--text-muted)">GST+PST</span><span style="color:var(--text-muted)">CAD$8.17</span></div>
             <div class="order-row" style="font-weight:700; border-top:1px solid var(--border); padding-top:8px; margin-top:4px;">
               <span style="color:var(--dark)">Total Charged</span><span style="color:var(--dark)">CAD$62.76</span>
