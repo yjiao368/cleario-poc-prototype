@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cleario POC — Clickable Prototype v5</title>
+<title>Cleario POC — Clickable Prototype v6</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #F0F2F5; color: #333; }
@@ -200,7 +200,7 @@ input:focus { border-color: var(--primary) !important; }
 <div class="proto-nav">
   <div class="proto-nav-title">
     <svg width="24" height="24" viewBox="0 0 40 40" fill="none"><path d="M20 2L4 10V20C4 30 20 38 20 38C20 38 36 30 36 20V10L20 2Z" fill="#4CAF50"/><path d="M20 6L8 12V20C8 28 20 34 20 34C20 34 32 28 32 20V12L20 6Z" fill="#66BB6A"/><path d="M17 20L19 22L24 17" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <span>Cleario POC — Clickable Prototype v5</span>
+    <span>Cleario POC — Clickable Prototype v6</span>
     <small>March 2026</small>
   </div>
   <div class="proto-nav-btns">
@@ -210,8 +210,11 @@ input:focus { border-color: var(--primary) !important; }
   </div>
 </div>
 
+<div class="changelog" style="background:#FFCDD2; border-bottom-color:#EF9A9A;">
+  <strong style="color:#C62828;">⚠️ ARCHIVED:</strong> Design work has moved to Figma. This HTML prototype is kept as reference only — do not use for design or dev specs. Contact Jess for the active Figma file in the Cleario project.
+</div>
 <div class="changelog">
-  <strong>v5 changes:</strong> A/B test #1: Design — Dark vs Adaware blue/white · A/B test #2: Headlines — Neutral vs Urgent · Swapped "Registry Issues" → "System Errors" · Added ! to notification stat values · Order cart: ✓ → ! icons (partner rec: +9% conv.) · Monthly pricing display, billed yearly (partner rec: +32% conv.) · FAQ section added (placeholder copy) · Pricing placeholders · Removed auto-dismiss countdown
+  <strong>v6 changes:</strong> Simplified to 1 A/B test (design only: Dark vs Adaware Blue) · Urgent headlines locked in · Headline toggle removed · CTR baseline: 7%, cart conversion: 1%
 </div>
 
 <div class="screen-wrap">
@@ -252,13 +255,6 @@ input:focus { border-color: var(--primary) !important; }
         <button class="ab-btn" onclick="switchVariant('b')">B: Adaware Blue</button>
       </div>
 
-      <!-- Headline A/B toggle -->
-      <div class="ab-bar" style="top:82px;">
-        <span class="ab-label">HEADLINE:</span>
-        <button class="hl-btn ab-btn active" onclick="switchHeadline('a')">A: Neutral</button>
-        <button class="hl-btn ab-btn" onclick="switchHeadline('b')">B: Urgent</button>
-      </div>
-
       <!-- Notification -->
       <div id="notif-main" class="notif-popup hidden">
         <div class="notif-source">
@@ -269,7 +265,7 @@ input:focus { border-color: var(--primary) !important; }
           <button class="notif-close" onclick="dismissNotif()">×</button>
         </div>
         <div class="notif-body">
-          <div class="notif-title" id="notif-headline">Your PC needs attention</div>
+          <div class="notif-title" id="notif-headline">Your PC is running slow!</div>
           <div class="notif-subtitle" id="notif-desc">We found <strong style="color:var(--accent)">3 performance issues</strong> on your computer:</div>
           <div class="notif-stats" id="notif-stats">
             <div class="notif-stat"><span class="notif-stat-label">Available Memory</span><span class="notif-stat-value">18% — Low!</span></div>
@@ -502,27 +498,11 @@ input:focus { border-color: var(--primary) !important; }
 <script>
 let currentScreen = 0;
 let currentVariant = 'a';
-let currentHeadline = 'a';
 
-// Headline variants for A/B testing
-const headlines = {
-  a: { // Current
-    multi: 'Your PC needs attention',
-    memory: 'Speed up your PC',
-    registry: 'Improve your PC performance',
-    junk: 'Free up space on your PC'
-  },
-  b: { // Alternate — more urgent/direct
-    multi: 'Your PC is running slow!',
-    memory: 'Low memory is slowing you down!',
-    registry: 'System errors detected!',
-    junk: 'Your PC is running out of space!'
-  }
-};
-
-// Notification content variants
+// Notification content — urgent headlines locked in
 const scenarios = {
   multi: {
+    headline: 'Your PC is running slow!',
     desc: 'We found <strong style="color:#FF6B35">3 performance issues</strong> on your computer:',
     stats: [
       { label: 'Available Memory', value: '18% — Low!' },
@@ -531,14 +511,17 @@ const scenarios = {
     ]
   },
   memory: {
+    headline: 'Low memory is slowing you down!',
     desc: 'Your available memory is running low, which could be slowing down your computer.',
     stats: [{ label: 'Available Memory', value: '18% — Low!' }]
   },
   registry: {
+    headline: 'System errors detected!',
     desc: 'System errors detected that may be affecting your speed and stability.',
     stats: [{ label: 'System Errors', value: '47 issues!' }]
   },
   junk: {
+    headline: 'Your PC is running out of space!',
     desc: 'Junk files are cluttering your system and may impact performance.',
     stats: [{ label: 'Junk Files', value: '1.8 GB!' }]
   }
@@ -550,25 +533,12 @@ function switchScenario(key) {
   currentScenarioKey = key;
   document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
   event.target.classList.add('active');
-  renderNotifContent();
-}
-
-function renderNotifContent() {
-  const s = scenarios[currentScenarioKey];
-  const h = headlines[currentHeadline][currentScenarioKey];
-  document.getElementById('notif-headline').textContent = h;
+  const s = scenarios[key];
+  document.getElementById('notif-headline').textContent = s.headline;
   document.getElementById('notif-desc').innerHTML = s.desc;
   document.getElementById('notif-stats').innerHTML = s.stats.map(st =>
     `<div class="notif-stat"><span class="notif-stat-label">${st.label}</span><span class="notif-stat-value">${st.value}</span></div>`
   ).join('');
-}
-
-// Headline A/B switching
-function switchHeadline(v) {
-  currentHeadline = v;
-  document.querySelectorAll('.hl-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  renderNotifContent();
 }
 
 // A/B variant switching
